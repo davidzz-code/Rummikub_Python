@@ -1,11 +1,19 @@
 # Rummikub_Python
+
 # Documento IDC
+
 ## Reglamento de Rummikub
+
 ### Especificaciones:
+
 ##### Número de jugadores: Mínimo 2, máximo 4.
+
 ##### Duración aproximada: 45 minutos.
+
 ##### Edad mínima recomendada: 8 años.
+
 ### Componentes:
+
 ##### - 106 fichas (8 conjuntos de fichas numeradas del 1-13 en 4 colores y 2 comodines).
 ##### - 4 soportes.
 ##### - Patas de soporte.
