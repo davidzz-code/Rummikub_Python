@@ -5,28 +5,29 @@
 ## Reglamento de Rummikub
 
 ### Especificaciones:
-
-##### Número de jugadores: Mínimo 2, máximo 4.
-
-##### Duración aproximada: 45 minutos.
-
-##### Edad mínima recomendada: 8 años.
+```
+Número de jugadores: Mínimo 2, máximo 4.
+Duración aproximada: 45 minutos.
+Edad mínima recomendada: 8 años.
+```
 
 ### Componentes:
-
+```
 ##### - 106 fichas (8 conjuntos de fichas numeradas del 1-13 en 4 colores y 2 comodines).
 ##### - 4 soportes.
 ##### - Patas de soporte.
 ##### - Reglas del juego.
+```
 
 ### Preparación:
-
-##### 1.1 Adquirimos el juego de mesa "Rummikub".
-##### 1.2 Extraemos los componentes pertenecientes al juego.
-##### 1.3 Volteamos y mezclamos las fichas.
-##### 1.4 Reagrupamos y amontonamos las fichas.
-##### 1.5 Proveemos a cada jugador 14 fichas.
-##### 1.6 Cada jugador extrae una ficha de las amontonadas para determinar el primer turno.
+```
+1.1 Adquirimos el juego de mesa "Rummikub".
+1.2 Extraemos los componentes pertenecientes al juego.
+1.3 Volteamos y mezclamos las fichas.
+1.4 Reagrupamos y amontonamos las fichas.
+1.5 Proveemos a cada jugador 14 fichas.
+1.6 Cada jugador extrae una ficha de las amontonadas para determinar el primer turno.
+```
 
 ### Reglas del juego:
 
@@ -41,7 +42,8 @@
 ##### **Final**: El juego lo gana el jugador que se quede sin fichas en su soporte.
 
 ### Juego
-
-##### 2.1 El primer jugador hace el movimiento inicial.
-##### 2.2 El siguiente jugador intenta realizar un conjunto, con sus piezas o dividiendo las que hay en el tablero.
-##### 2.3 Se sigue consecutivamente hasta que se finalice el juego.
+```
+2.1 El primer jugador hace el movimiento inicial.
+2.2 El siguiente jugador intenta realizar un conjunto, con sus piezas o dividiendo las que hay en el tablero.
+2.3 Se sigue consecutivamente hasta que se finalice el juego.
+```
