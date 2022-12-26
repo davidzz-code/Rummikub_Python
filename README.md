@@ -1,7 +1,6 @@
 # Rummikub_Python
 
 # Documento IDC
-
 ## Reglamento de Rummikub
 
 ### Especificaciones:
