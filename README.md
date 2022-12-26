@@ -49,6 +49,7 @@ Edad mínima recomendada: 8 años.
 ```
 
 # Documento TEP:
+## Crearción del menú principal
 ```
 # Importa la librería de Pygame
 import pygame
