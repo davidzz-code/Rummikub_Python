@@ -1,3 +1,14 @@
+- [Documento IDC](#documento-idc)
+  - [Reglamento de Rummikub](#reglamento-de-rummikub)
+    - [Especificaciones](#especificaciones)
+    - [Componentes](#componentes)
+    - [Preparación](#preparación)
+    - [Reglas del juego](#reglas-del-juego)
+    - [Juego](#juego)
+- [Documento TEP](#documento-tep)
+  - [Menú principal](#menú-principal)
+  - [Menú de pausa](#menú-de-pausa)
+
 # Documento IDC
 
 ## Reglamento de Rummikub
@@ -43,9 +54,9 @@
 2. El siguiente jugador intenta realizar un conjunto, con sus piezas o dividiendo las que hay en el tablero.
 3. Se sigue consecutivamente hasta que se finalice el juego.
 
-## Documento TEP
+# Documento TEP
 
-### Menú principal
+## Menú principal
 
 ``` python
 # Importa la librería de Pygame
@@ -93,7 +104,7 @@ while run:
                 pygame.display.flip()
 ```
 
-### Menú de pausa
+## Menú de pausa
 
 1. Dentro del bucle principal, añadir una condición para la creación del menú de pausa.
 2. **Crear el menú**:
@@ -101,7 +112,7 @@ while run:
 - Definir una variable para cargar las imágenes que queramos para el menú.
 - Definir variables para ubicar las imágenes en el menú de pausa.
 - Añadir las condiciones al bucle después del menú de pausa con los botones y sus funciones.
-- 
+
 3. **Crear menú de opciones en el bucle**
 
 - Ubicar mediante condiciones las diferentes opciones
