@@ -65,11 +65,25 @@ import pygame
 # Inicializa Pygame
 pygame.init()
 
+# Crea la paleta de colores
+white = (255, 255, 255)
+black = (0, 0, 0)
+red = (255, 0, 0)
+green = (0, 255, 0)
+blue = (0, 0, 255)
+yellow = (255, 255, 0)
+cyan = (0, 255, 255)
+magenta = (255, 0, 255)
+soft_blue = (133, 193, 233)
+
 # Obtiene medidas de la pantalla
 screen_size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
 
 # Crea la ventana con el tamaño de pantalla obtenido
 screen = pygame.display.set_mode(screen_size)
+
+# Crea el fondo
+screen.fill(soft_blue)
 
 # Crea una fuente para escribir texto en la pantalla
 font = pygame.font.Font(None, 70)
@@ -85,8 +99,21 @@ button_text = button_font.render("Comenzar a jugar ", 1, (80, 100, 255))
 button_rect = button_text.get_rect()
 button_rect.center = (700, 650)
 
+# Crea un botón que servirá para abrir el menu de pausa
+button_font_1 = pygame.font.Font(None, 50)
+button_text_1 = button_font.render("Menú de pausa ", 1, (0, 0, 0))
+button_rect_1 = button_text.get_rect()
+button_rect_1.center = (1800, 50)
+
+#Crea un botón que servirá para cerrar el menu de pausa
+button_font_2 = pygame.font.Font(None, 50)
+button_text_2 = button_font.render("Cerrar ", 1, (0, 0, 0))
+button_rect_2 = button_text.get_rect()
+button_rect_2.center = (1800, 50)
+
 # Dibuja el botón por pantalla
 screen.blit(button_text, button_rect)
+screen.blit(button_text_1, button_rect_1)
 
 # Actualiza la pantalla para mostrar los cambios
 pygame.display.flip()
