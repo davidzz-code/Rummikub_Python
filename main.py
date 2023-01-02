@@ -4,11 +4,25 @@ import pygame
 # Inicializa Pygame
 pygame.init()
 
+# Crea la paleta de colores
+white = (255, 255, 255)
+black = (0, 0, 0)
+red = (255, 0, 0)
+green = (0, 255, 0)
+blue = (0, 0, 255)
+yellow = (255, 255, 0)
+cyan = (0, 255, 255)
+magenta = (255, 0, 255)
+soft_blue = (133, 193, 233)
+
 # Obtiene medidas de la pantalla
 screen_size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
 
 # Crea la ventana con el tamaño de pantalla obtenido
 screen = pygame.display.set_mode(screen_size)
+
+# Crea el fondo
+screen.fill(soft_blue)
 
 # Crea una fuente para escribir texto en la pantalla
 font = pygame.font.Font(None, 70)
