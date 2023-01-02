@@ -3,8 +3,8 @@ import pygame, sys
 pygame.init()
 
 #################### PANTALLA ####################
-screen = pygame.display.set_mode((1280, 720))
-screen_size = (1280, 720)
+screen_size = (1000, 665)
+screen = pygame.display.set_mode(screen_size)
 
 # Crea una fuente para escribir texto en la pantalla
 font = pygame.font.Font(None, 70)
@@ -18,13 +18,13 @@ def main_menu(): # Menu principal
         # Crea el mensaje que quieras dibujar por pantalla
         message_font = "Menú principal"
         text_font = font.render(message_font, 1, (255, 175, 230))
-        screen.blit(text_font, (200, 300))
+        screen.blit(text_font, (100, 100))
 
         # Crea un botón que servirá para comenzar el juego
         button_font = pygame.font.Font(None, 50)
         button_text = button_font.render("Comenzar a jugar ", 1, (80, 100, 255))
         button_rect = button_text.get_rect()
-        button_rect.center = (700, 650)
+        button_rect.center = (600, 300)
 
         # Dibuja el botón por pantalla
         screen.blit(button_text, button_rect)
@@ -41,14 +41,14 @@ def main_menu(): # Menu principal
                     if button_rect.collidepoint(event.pos):
                         play()
 
-def play():
+def play(): # Pantalla de juego
 
     rectangle = pygame.rect.Rect(200, 134, 65, 80)
     rectangle_draging = False
-    BLACK = (0, 0, 0)
-    RED   = (255,   0,   0)
+    WHITE   = (255,255,255)
     FPS = 144
     clock = pygame.time.Clock()
+    bg = pygame.image.load("bg.jpg")
 
 
     while run:    
@@ -75,8 +75,8 @@ def play():
                     rectangle.x = mouse_x + offset_x
                     rectangle.y = mouse_y + offset_y
     
-            screen.fill(BLACK)
-            pygame.draw.rect(screen, RED, rectangle)
+            screen.blit(bg, (0, 0))
+            pygame.draw.rect(screen, WHITE, rectangle)
             pygame.display.flip()
             clock.tick(FPS)
 
