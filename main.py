@@ -52,8 +52,33 @@ while run:
             run = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if button_rect.collidepoint(event.pos):
-                text_font = font.render("¡Ha empezado el juego!", 1, (100, 255, 70))
-                screen.blit(text_font, (450, 400))
+                screen.fill((0, 0, 255))
+
+                # Set the number of rows and columns in the grid
+                rows = 10
+                cols = 10
+
+                # Set the size of each cell in the grid
+                cell_size = 50
+
+                # Calculate the total width and height of the grid
+                grid_width = cols * cell_size
+                grid_height = rows * cell_size
+
+                # Calculate the center position of the screen
+                screen_center_x = screen_size[0] // 2
+                screen_center_y = screen_size[1] // 2
+
+                # Calculate the top left corner position of the grid
+                grid_x = screen_center_x - grid_width // 2
+                grid_y = screen_center_y - grid_height // 2
+
+                for row in range(rows):
+                    for col in range(cols):
+                        x = col * cell_size + grid_x
+                        y = row * cell_size + grid_y
+                        rect = pygame.Rect(x, y, cell_size, cell_size)
+                        pygame.draw.rect(screen, (255, 255, 255), rect, 1)
                 pygame.display.flip()
 
 # Cierra Pygame al finalizar el juego
