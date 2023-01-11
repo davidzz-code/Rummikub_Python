@@ -23,7 +23,7 @@ clock = (
     pygame.time.Clock()
 )  # Creación de una variable "clock" para ajustar la velocidad de las imágenes
 bg = pygame.image.load(
-    os.path.join("Python", "Rummikub_Python", "resources", "bg.jpg")
+    os.path.join("Rummikub_Python", "resources", "bg.jpg")
 )  # fondo del juego
 
 # Crea una fuente para escribir texto en la pantalla
@@ -65,9 +65,16 @@ def main_menu():  # Menu principal
 
 
 def play():  # Pantalla de juego
-    # Creación de un rectángulo
-    rectangle = pygame.rect.Rect(200, 134, 65, 80)
-    rectangle_draging = False
+    # Creación de una imagen
+    pieza = pygame.image.load(
+    os.path.join("Rummikub_Python", "resources", "b_play.png")
+    )
+    pieza.convert()
+    moving = False
+
+    # Dibujar rectangulo alrededor de la imagen
+    rect = pieza.get_rect()
+    rect.center = screen_size[0] // 2, screen_size[1] // 2
 
     # Bucle principal
     while run:
@@ -78,27 +85,19 @@ def play():  # Pantalla de juego
 
             ####### Inicio condiciones Dragging #######
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    if rectangle.collidepoint(event.pos):
-                        rectangle_draging = True
-                        mouse_x, mouse_y = event.pos
-                        offset_x = rectangle.x - mouse_x
-                        offset_y = rectangle.y - mouse_y
+                if rect.collidepoint(event.pos):
+                    moving = True
 
             elif event.type == pygame.MOUSEBUTTONUP:
-                if event.button == 1:
-                    rectangle_draging = False
+                moving = False
 
-            elif event.type == pygame.MOUSEMOTION:
-                if rectangle_draging:
-                    mouse_x, mouse_y = event.pos
-                    rectangle.x = mouse_x + offset_x
-                    rectangle.y = mouse_y + offset_y
+            elif event.type == pygame.MOUSEMOTION and moving:
+                rect.move_ip(event.rel)
             ####### Final condiciones Dragging #######
 
             screen.blit(bg, (0, 0))
-            pygame.draw.rect(screen, white, rectangle)
-            pygame.display.flip()
+            screen.blit(pieza, rect)
+            pygame.display.update()
             clock.tick(FPS)
 
 
