@@ -23,9 +23,9 @@ clock = (
     pygame.time.Clock()
 )  # Creación de una variable "clock" para ajustar la velocidad de las imágenes
 play_bg = pygame.image.load(
-    os.path.join("Rummikub_Python", "resources", "bg.jpg")
+    os.path.join("resources", "bg.jpg")
 )  # fondo del juego principal
-menu_bg = pygame.image.load(os.path.join("Rummikub_Python", "resources", "Fondo.png"))
+menu_bg = pygame.image.load(os.path.join("resources", "Fondo.png"))
 
 # Crea una fuente para escribir texto en la pantalla
 font = pygame.font.SysFont("Helvetica", 70)
@@ -44,14 +44,14 @@ def main_menu():  # Menu principal
 
         # Crea un botón que servirá para comenzar el juego
         play_b_img = pygame.image.load(
-            os.path.join("Rummikub_Python", "resources", "b_play.png")
+            os.path.join("resources", "b_play.png")
         )
         play_b_rect = play_b_img.get_rect()
         play_b_rect.center = (500, 400)
 
         # Crea un botón para salir del juego
         exit_b_img = pygame.image.load(
-            os.path.join("Rummikub_Python", "resources", "b_exit.png")
+            os.path.join("resources", "b_exit.png")
         )
         exit_b_rect = exit_b_img.get_rect()
         exit_b_rect.center = (500, 500)
@@ -82,7 +82,7 @@ def main_menu():  # Menu principal
 def play():  # Pantalla de juego
     # Creación de una imagen
     pieza = pygame.image.load(
-        os.path.join("Rummikub_Python", "resources", "b_play.png")
+        os.path.join("resources", "b_play.png")
     )
     pieza.convert()
     moving = False
