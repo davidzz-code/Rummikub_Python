@@ -22,9 +22,10 @@ FPS = 25
 clock = (
     pygame.time.Clock()
 )  # Creación de una variable "clock" para ajustar la velocidad de las imágenes
-bg = pygame.image.load(
+play_bg = pygame.image.load(
     os.path.join("Rummikub_Python", "resources", "bg.jpg")
-)  # fondo del juego
+)  # fondo del juego principal
+menu_bg = pygame.image.load(os.path.join("Rummikub_Python", "resources", "Fondo.png"))
 
 # Crea una fuente para escribir texto en la pantalla
 font = pygame.font.SysFont("Helvetica", 70)
@@ -33,21 +34,31 @@ run = True
 
 def main_menu():  # Menu principal
     pygame.display.set_caption("Rummikub")  # Título de la ventana
+    screen.blit(menu_bg, (0, 0))
 
     while run:
         # Crea el mensaje que quieras dibujar por pantalla
-        message_font = "Menú principal"
-        text_font = font.render(message_font, 1, (255, 175, 230))
-        screen.blit(text_font, (100, 100))
+        message_font = "¡Bienvenido/a a Rummikub!"
+        text_font = font.render(message_font, 1, white)
+        screen.blit(text_font, (75, 150))
 
         # Crea un botón que servirá para comenzar el juego
-        button_font = pygame.font.SysFont("arial", 50)
-        button_text = button_font.render("Comenzar a jugar ", 1, (80, 100, 255))
-        button_rect = button_text.get_rect()
-        button_rect.center = (600, 300)
+        play_b_img = pygame.image.load(
+            os.path.join("Rummikub_Python", "resources", "b_play.png")
+        )
+        play_b_rect = play_b_img.get_rect()
+        play_b_rect.center = (500, 400)
+
+        # Crea un botón para salir del juego
+        exit_b_img = pygame.image.load(
+            os.path.join("Rummikub_Python", "resources", "b_exit.png")
+        )
+        exit_b_rect = exit_b_img.get_rect()
+        exit_b_rect.center = (500, 500)
 
         # Dibuja el botón por pantalla
-        screen.blit(button_text, button_rect)
+        screen.blit(play_b_img, play_b_rect)
+        screen.blit(exit_b_img, exit_b_rect)
 
         # Actualiza la pantalla para mostrar los cambios
         pygame.display.flip()
@@ -60,14 +71,18 @@ def main_menu():  # Menu principal
 
             # Acceder al juego tras pulsar el botón
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if button_rect.collidepoint(event.pos):
+                if play_b_rect.collidepoint(event.pos):
                     play()
+                    
+                if exit_b_rect.collidepoint(event.pos):
+                    pygame.quit()
+                    sys.exit()
 
 
 def play():  # Pantalla de juego
     # Creación de una imagen
     pieza = pygame.image.load(
-    os.path.join("Rummikub_Python", "resources", "b_play.png")
+        os.path.join("Rummikub_Python", "resources", "b_play.png")
     )
     pieza.convert()
     moving = False
@@ -95,7 +110,7 @@ def play():  # Pantalla de juego
                 rect.move_ip(event.rel)
             ####### Final condiciones Dragging #######
 
-            screen.blit(bg, (0, 0))
+            screen.blit(play_bg, (0, 0))
             screen.blit(pieza, rect)
             pygame.display.update()
             clock.tick(FPS)
