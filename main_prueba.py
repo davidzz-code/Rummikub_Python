@@ -1,19 +1,18 @@
-import pygame, random, os
+import pygame, os, random
 
 pygame.init()
 
-screen = pygame.display.set_mode((800, 600))
+width = 600
+height = 800
+screen = pygame.display.set_mode((height, width))
+
 
 def fichas():
     # Guarda la ruta de las imagenes en variables
     carpetaFichas = "resources/Fichas"
     archivosFichas = os.listdir(carpetaFichas)
 
-    # Coordenadas iniciales de las fichas
-    x = 0
-    y = 0
-
-    # Crea un diccionario que asocia las imagenes con su valor
+    # Crea un diccionario que asocia las imagenes con su valor
     fichas = {}
     for archivo in archivosFichas:
         if archivo.endswith(".png"):
@@ -22,20 +21,24 @@ def fichas():
             numero = archivo.split("-")[1].split(".")[0]
             fichas[(int(numero), color)] = imagen
 
-    # Dibujar 14 fichas random
-    fichas_keys = list(fichas.keys())
-    random.shuffle(fichas_keys)
-    
+    fichas_keys = random.sample(list(fichas.keys()), 14) # Select 14 random keys
+
+    x, y = 0, 0 # initialize x and y coordinates for the tile's position
+
     for key in fichas_keys:
         screen.blit(fichas[key], (x,y))
         x += 70
+        if x > width-70:  # if x exceeds the width of the screen, move to the next row
+            x = 0
+            y += 110
 
-    pygame.display.update()
+fichas()
+
+pygame.display.flip()
 
 while True:
     screen.fill((255, 255, 255))
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             pygame.sys.exit()
-    fichas()
-    pygame.display.flip()
+
