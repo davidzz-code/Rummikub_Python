@@ -21,7 +21,10 @@ def fichas():
             numero = archivo.split("-")[1].split(".")[0]
             fichas[(int(numero), color)] = imagen
 
-    fichas_keys = random.sample(list(fichas.keys()), 14) # Select 14 random keys
+    fichas_keys = list(fichas.keys()) # Select 14 random keys
+    fichas_keys = fichas_keys * 2
+    fichas_keys = random.sample(fichas_keys, 14)
+
 
     x, y = 0, 0 # initialize x and y coordinates for the tile's position
 
