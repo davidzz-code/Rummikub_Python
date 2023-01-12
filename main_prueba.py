@@ -10,8 +10,8 @@ def fichas():
     archivosFichas = os.listdir(carpetaFichas)
 
     # Coordenadas iniciales de las fichas
-    x = 10
-    y = 20
+    x = 0
+    y = 0
 
     # Crea un diccionario que asocia las imagenes con su valor
     fichas = {}
@@ -22,20 +22,14 @@ def fichas():
             numero = archivo.split("-")[1].split(".")[0]
             fichas[(int(numero), color)] = imagen
 
-    # Variables para recorrer
-    colores = ["Azul", "Rojo", "Negro", "Naranja"]
-    numeros = list(range(1, 14))
+    # Dibujar 14 fichas random
+    fichas_keys = list(fichas.keys())
+    random.shuffle(fichas_keys)
+    
+    for key in fichas_keys:
+        screen.blit(fichas[key], (x,y))
+        x += 70
 
-    # Recorre las variables anteriores e imprime cada ficha
-    for color in colores:
-        color_select = color
-        for numero in numeros:
-            numero_select = numero
-            screen.blit(fichas[(numero_select, color_select)], (x, y)) 
-            x += 13
-            y += 5
-
-    # Actualiza la pantalla
     pygame.display.update()
 
 while True:
