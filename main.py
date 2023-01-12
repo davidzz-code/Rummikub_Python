@@ -1,10 +1,12 @@
-# Importa la librería de Pygame
-import pygame
+import pygame, sys, os
 
-# Inicializa Pygame
 pygame.init()
 
-# Crea la paleta de colores
+# Tamaño de pantalla
+screen_size = (1000, 665)
+screen = pygame.display.set_mode(screen_size)
+
+# Paleta de colores
 white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
@@ -15,71 +17,103 @@ cyan = (0, 255, 255)
 magenta = (255, 0, 255)
 soft_blue = (133, 193, 233)
 
-# Obtiene medidas de la pantalla
-screen_size = (pygame.display.Info().current_w, pygame.display.Info().current_h)
-
-# Crea la ventana con el tamaño de pantalla obtenido
-screen = pygame.display.set_mode(screen_size)
-
-# Crea el fondo
-screen.fill(soft_blue)
+# Variables
+FPS = 25
+clock = (
+    pygame.time.Clock()
+)  # Creación de una variable "clock" para ajustar la velocidad de las imágenes
+play_bg = pygame.image.load(
+    os.path.join("resources", "bg.jpg")
+)  # fondo del juego principal
+menu_bg = pygame.image.load(os.path.join("resources", "Fondo.png"))
 
 # Crea una fuente para escribir texto en la pantalla
-font = pygame.font.Font(None, 70)
-
-# Crea el mensaje que quieras dibujar por pantalla
-message_font = "Menú principal"
-text_font = font.render(message_font, 1, (255, 175, 230))
-screen.blit(text_font, (200, 300))
-
-# Crea un botón que servirá para comenzar el juego
-button_font = pygame.font.Font(None, 50)
-button_text = button_font.render("Comenzar a jugar ", 1, (80, 100, 255))
-button_rect = button_text.get_rect()
-button_rect.center = (700, 650)
-
-# Dibuja el botón por pantalla
-screen.blit(button_text, button_rect)
-
-# Actualiza la pantalla para mostrar los cambios
-pygame.display.flip()
-
-# Crea un bucle para controlar los eventos del menú principal
+font = pygame.font.SysFont("Helvetica", 70)
 run = True
-while run:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if button_rect.collidepoint(event.pos):
-                screen.fill((0, 0, 255))
 
-                # Set the number of rows and columns in the grid
-                rows = 10
-                cols = 10
 
-                # Set the size of each cell in the grid
-                cell_size = 50
+def main_menu():  # Menu principal
+    pygame.display.set_caption("Rummikub")  # Título de la ventana
+    screen.blit(menu_bg, (0, 0))
 
-                # Calculate the total width and height of the grid
-                grid_width = cols * cell_size
-                grid_height = rows * cell_size
+    while run:
+        # Crea el mensaje que quieras dibujar por pantalla
+        message_font = "¡Bienvenido/a a Rummikub!"
+        text_font = font.render(message_font, 1, white)
+        screen.blit(text_font, (75, 150))
 
-                # Calculate the center position of the screen
-                screen_center_x = screen_size[0] // 2
-                screen_center_y = screen_size[1] // 2
+        # Crea un botón que servirá para comenzar el juego
+        play_b_img = pygame.image.load(
+            os.path.join("resources", "b_play.png")
+        )
+        play_b_rect = play_b_img.get_rect()
+        play_b_rect.center = (500, 400)
 
-                # Calculate the top left corner position of the grid
-                grid_x = screen_center_x - grid_width // 2
-                grid_y = screen_center_y - grid_height // 2
+        # Crea un botón para salir del juego
+        exit_b_img = pygame.image.load(
+            os.path.join("resources", "b_exit.png")
+        )
+        exit_b_rect = exit_b_img.get_rect()
+        exit_b_rect.center = (500, 500)
 
-                for row in range(rows):
-                    for col in range(cols):
-                        x = col * cell_size + grid_x
-                        y = row * cell_size + grid_y
-                        rect = pygame.Rect(x, y, cell_size, cell_size)
-                        pygame.draw.rect(screen, (255, 255, 255), rect, 1)
-                pygame.display.flip()
+        # Dibuja el botón por pantalla
+        screen.blit(play_b_img, play_b_rect)
+        screen.blit(exit_b_img, exit_b_rect)
 
-# Cierra Pygame al finalizar el juego
-pygame.quit()
+        # Actualiza la pantalla para mostrar los cambios
+        pygame.display.flip()
+
+        # bucle principal para salir de la pantalla
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            # Acceder al juego tras pulsar el botón
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if play_b_rect.collidepoint(event.pos):
+                    play()
+                    
+                if exit_b_rect.collidepoint(event.pos):
+                    pygame.quit()
+                    sys.exit()
+
+
+def play():  # Pantalla de juego
+    # Creación de una imagen
+    pieza = pygame.image.load(
+        os.path.join("resources", "Rojo", "Rojo-7.png")
+    )
+    pieza.convert()
+    moving = False
+
+    # Dibujar rectangulo alrededor de la imagen
+    rect = pieza.get_rect()
+    rect.center = screen_size[0] // 2, screen_size[1] // 2
+
+    # Bucle principal
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            ####### Inicio condiciones Dragging #######
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if rect.collidepoint(event.pos):
+                    moving = True
+
+            elif event.type == pygame.MOUSEBUTTONUP:
+                moving = False
+
+            elif event.type == pygame.MOUSEMOTION and moving:
+                rect.move_ip(event.rel)
+            ####### Final condiciones Dragging #######
+
+            screen.blit(play_bg, (0, 0))
+            screen.blit(pieza, rect)
+            pygame.display.update()
+            clock.tick(FPS)
+
+
+main_menu()
