@@ -82,7 +82,11 @@ def main_menu():  # Menu principal
 def play():  # Pantalla de juego
     # Creación de una imagen
     pieza = pygame.image.load(
+<<<<<<< HEAD
         os.path.join("resources", "Fichas", "Rojo-7.png")
+=======
+        os.path.join("resources", "Fichas", "Negro-2.png")
+>>>>>>> randomFichas
     )
     pieza.convert()
     moving = False
