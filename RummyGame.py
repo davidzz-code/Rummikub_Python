@@ -20,6 +20,10 @@ def shuffleFichas(fichas):
     print(fichas)
     return fichas
 
-fichasRummy = conjuntoFichas()
-fichasRummy = shuffleFichas(fichasRummy)
+conjuntoFichas()
 
+numeros = 0
+conjuntos = [("Rojo 1, Rojo 2, Rojo 3"), ("Azul 1, Naranja 1, Negro 1"), ("Azul 6, Negro 6"), ("Naranja 10")]
+for i in conjuntos:
+    numeros += 1
+    print(numeros,"-",i)
