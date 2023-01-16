@@ -14,6 +14,7 @@ def conjuntoFichas():
                 fichas.append(fichaVal)
     return fichas
 
+
 # Función para randomizar fichas.
 def shuffleFichas(fichas):
     for fichasPos in range(len(fichas)):
@@ -21,12 +22,14 @@ def shuffleFichas(fichas):
         fichas[fichasPos], fichas[randPos] = fichas[randPos], fichas[fichasPos]
     return fichas
 
+
 # Función para coger fichas.
 def cogerFichas(numFichas):
     fichasJugador = []
     for x in range(numFichas):
         fichasJugador.append(fichasRummy.pop(0))
     return fichasJugador
+
 
 # Función para mostrar la mano del jugador actual.
 def mostrarMano(jugador, manoJugador):
@@ -38,6 +41,7 @@ def mostrarMano(jugador, manoJugador):
         print(f"{y}) {ficha}")
         y += 1
     print("")
+
 
 # Función para comprobar si se puede jugar una ficha en la mano o no.
 def puedeJugar(color, valorFicha, manoJugador):
@@ -66,35 +70,64 @@ while numJugadores < 2 or numJugadores > 4:
 for jugador in range(numJugadores):
     jugadores.append(cogerFichas(14))
 
-#Definimos el turno del jugador, 
-# la condición para que el bucle se cumpla mediante un booleano
-# Añadimos una primera ficha al tablero --> TO DO: quitar la ficha, porque es parte del UNO 
+# Definimos el turno del jugador,
+# el turno de la partida y 
+# la condición para que el bucle del juego principal se cumpla mediante un booleano
+# Añadimos una primera ficha al tablero --> TO DO: quitar la ficha, porque es parte del UNO
 jugadorTurno = 0
+partidaTurno = 1
 jugando = True
 tablero.append(fichasRummy.pop(0))
 
 # Definir si es el primer turno
 primerTurno = False
-if numJugadores == 2 and jugadorTurno <= 1:
+if numJugadores == 2 and partidaTurno <= 2:
     primerTurno = True
-if numJugadores == 3 and jugadorTurno <= 2:
+if numJugadores == 3 and partidaTurno <= 3:
     primerTurno = True
-if numJugadores == 4 and jugadorTurno <= 3:
+if numJugadores == 4 and partidaTurno <= 4:
     primerTurno = True
-
 
 # Dividimos el valor y el color de la ficha para hacer las comparaciones
 splitFicha = fichasRummy[0].split(" ", 1)
 color = splitFicha[0]
-valorFicha = splitFicha[1]
+valorFicha = int(splitFicha[1])
 
 # Bucle princial:
 while jugando:
+    # Muestra la mano y dibuja el tablero.
     mostrarMano(jugadorTurno, jugadores[jugadorTurno])
     print(f"La/s ficha/s en el tablero es: {tablero}")
 
-    # Si la mano del jugador es jugable, elige un ficha para jugarla.
-    if puedeJugar(color, valorFicha, jugadores[jugadorTurno]):
+    # Si se puede jugar, y es el primer turno, pide las tres fichas
+    if puedeJugar(color, valorFicha, jugadores[jugadorTurno]) and primerTurno:
+        fichaEscogida = int(input("¿Qué primera ficha quieres escoger? "))
+        fichaEscogida2 = int(input("¿Qué segunda ficha quieres escoger? "))
+        fichaEscogida3 = int(input("¿Qué tercera ficha quieres escoger? "))
+
+
+        # Si la ficha escogida no es valida segun las normas, debe escoger otra ficha.
+        while not puedeJugar(
+            color, valorFicha, [jugadores[jugadorTurno][fichaEscogida - 1]]
+        ):
+            fichaEscogida = int(
+                input("No es una ficha valida. ¿Qué ficha quieres escoger? ")
+            )
+            fichaEscogida2 = int(
+                input("No es una ficha valida. ¿Qué segunda ficha quieres escoger? ")
+            )
+            fichaEscogida3 = int(
+                input("No es una ficha valida. ¿Qué tercera ficha quieres escoger? ")
+            )
+        
+        # Se anaden las fichas a una posicion y la posicion se anade al tablero
+        posicion.append(jugadores[jugadorTurno].pop(fichaEscogida - 1))
+        posicion.append(jugadores[jugadorTurno].pop(fichaEscogida2 - 1))
+        posicion.append(jugadores[jugadorTurno].pop(fichaEscogida3 - 1))
+        tablero.append(posicion)
+
+    # Si la mano del jugador es jugable y no es el primer turno, elige un ficha para jugarla.
+    elif puedeJugar(color, valorFicha, jugadores[jugadorTurno]) and not primerTurno:
         fichaEscogida = int(input("¿Qué ficha quieres escoger? "))
 
         # Si la ficha escogida no es valida segun las normas, debe escoger otra ficha.
@@ -112,7 +145,7 @@ while jugando:
         jugadores[jugadorTurno].extend(cogerFichas(1))
 
     # Pasar al siguiente turno
-    jugadorTurno += jugadorTurno
+    jugadorTurno += partidaTurno
 
     # Si el turno del ultimo jugador acaba, volver a empezar los turnos
     if jugadorTurno == numJugadores:
