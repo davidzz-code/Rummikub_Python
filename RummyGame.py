@@ -27,7 +27,7 @@ def manoFichasJugador(numFichas):
     return fichasJugador
 
 def mostrarMano(jugador, manoFichasJugador):
-    print("Player {}".format(jugador+1))
+    print(f"Player {jugador+1}")
     print("Tu mano")
     print("|-----------------|")
     for ficha in manoFichasJugador:

@@ -50,6 +50,12 @@ def puedeJugar(color, valorFicha, manoJugador):
             return True
     return False
 
+def tablero(tablero):
+    numero = 0
+    for i in tablero:
+        numero += 1
+        print (numero,")",i)
+
 # Crear el conjunto de fichas ordenadas aleatoriamente
 fichasRummy = conjuntoFichas()
 fichasRummy = shuffleFichas(fichasRummy)
@@ -103,7 +109,6 @@ while jugando:
         fichaEscogida = int(input("¿Qué primera ficha quieres escoger? "))
         fichaEscogida2 = int(input("¿Qué segunda ficha quieres escoger? "))
         fichaEscogida3 = int(input("¿Qué tercera ficha quieres escoger? "))
-
 
         # Si la ficha escogida no es valida segun las normas, debe escoger otra ficha.
         while not puedeJugar(
