@@ -50,11 +50,17 @@ def puedeJugar(color, valorFicha, manoJugador):
             return True
     return False
 
+#Función para mostrar los conjuntos del tablero en orden.
 def tablero(tablero):
     numero = 0
     for i in tablero:
         numero += 1
         print (numero,")",i)
+
+#Función para robar una ficha.
+def robar(descartes, manoJugador):
+    if not puedeJugar:
+        manoJugador.append({descartes[-1]})
 
 # Crear el conjunto de fichas ordenadas aleatoriamente
 fichasRummy = conjuntoFichas()
