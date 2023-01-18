@@ -56,6 +56,14 @@ def mostrarTurno(puedePasar, puedeCogerFicha):
     if puedePasar:
         print("Opcion 4: Pasar turno")
 
+# Funcion para mostrar el tablero
+def mostrarTablero(tablero):
+    numero = 0
+    for i in tablero:
+        numero += 1
+        print("El tablero actual es: ")
+        print(str(numero) + ". " + ", ".join(i) + ",")
+        print("")
 
 # Primera opcion del turno: Anadir una ficha a la mano del jugador
 def opcion1(manoJugador):
@@ -95,9 +103,7 @@ def opcion2():
     else:
         tablero[posicion - 1].append(jugadores[jugadorTurno].pop(ficha - 1))
 
-    print(f"Este es el tablero:")
-    print("")
-    print(tablero)
+    mostrarTablero(tablero)
 
 
 # Tercera opcion del turno: Anadir fichas a una nueva posicion
@@ -151,7 +157,7 @@ def opcion3(manoJugador):
     else:
         tablero.append(nuevoConjunto)
 
-    print(f"El tablero actual es: {tablero}")
+    mostrarTablero(tablero)
 
 
 # Crear el conjunto de fichas ordenadas aleatoriamente
@@ -160,7 +166,7 @@ fichasRummy = shuffleFichas(fichasRummy)
 fichasRummy = shuffleFichas(fichasRummy)
 
 # Crear lista de tablero.
-tablero = [["rojo 2"]]
+tablero = [["rojo 2", "amarillo 2", "negro 2"]]
 
 # Definir el número de jugadores
 jugadores = []
@@ -202,9 +208,9 @@ puedeCogerFicha = True
 if not primerTurno:
     # Bucle princial:
     while jugando:
-        # Muestra la mano y dibuja el tablero.
+        # Muestra la mano y el tablero.
         mostrarMano(jugadorTurno, jugadores[jugadorTurno])
-        print(f"La/s ficha/s en el tablero es: {tablero}")
+        mostrarTablero(tablero)
 
         # Mostrar las opciones que se pueden realizar
         mostrarTurno(puedePasar, puedeCogerFicha)
@@ -247,7 +253,7 @@ else:
     while jugando:
         # Muestra la mano y dibuja el tablero.
         mostrarMano(jugadorTurno, jugadores[jugadorTurno])
-        print(f"Las fichas en el tablero son: {tablero}")
+        mostrarTablero(tablero)
 
         # Mostrar las opciones que se pueden realizar
         mostrarTurno(puedePasar, puedeCogerFicha)
