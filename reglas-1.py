@@ -32,7 +32,7 @@ def tableroFunction(listaTablero):
 
 tableroFunction(tablero)
 ficha = input("¿Qué ficha quieres usar?: ")
-posicion = int(input("¿En qué posición la quieres colocar?: "))
+conjunto = int(input("¿En qué conjunto la quieres colocar?: "))
 
 # Este bucle crea una lista con el color y el número separados.
 
@@ -41,7 +41,7 @@ tableroSeparado1 = sublista1[-1].split(" ")
 tableroSeparado2 = sublista2[-1].split(" ")
 tableroSeparado3 = sublista3[-1].split(" ")
 
-    # Hace un cambio de tipo "string" a tipo "int" para los números y así poder usarlos como integers más alante
+# Hace un cambio de tipo "string" a tipo "int" para los números y así poder usarlos como integers más alante
 numeroEscalera1 = int(tableroSeparado1.pop(1))
 numeroEscalera2 = int(tableroSeparado2.pop(1))
 numeroEscalera3 = int(tableroSeparado3.pop(1))
@@ -52,34 +52,34 @@ numeroFicha = int(fichasSeparadas.pop(1))
 
 ##### Arreglar que se queda pillado en "movimiento incorrecto"
 while correcto == "no":
-    if posicion == 1:
+    if conjunto == 1:
         if fichasSeparadas[0] != tableroSeparado1[0] or numeroFicha != (numeroEscalera1 + 1):
             correcto = "no"
             print("Movimiento incorrecto, vuelve a probar.")
             ficha = input("¿Qué ficha quieres usar?: ")
-            posicion = int(input("¿En qué posición la quieres colocar?: "))
+            conjunto = int(input("¿En qué conjunto la quieres colocar?: "))
         else:
             correcto = "si"
             sublista1.append(ficha)
             tableroFunction(tablero)
 
-    elif posicion == 2:
+    elif conjunto == 2:
         if fichasSeparadas[0] != tableroSeparado2[0] or numeroFicha != (numeroEscalera2 + 1):
             correcto = "no"
             print("Movimiento incorrecto, vuelve a probar.")
             ficha = input("¿Qué ficha quieres usar?: ")
-            posicion = int(input("¿En qué posición la quieres colocar?: "))
+            conjunto = int(input("¿En qué conjunto la quieres colocar?: "))
         else:
             correcto = "si"
             sublista2.append(ficha)
             tableroFunction(tablero)
 
-    elif posicion == 3:
+    elif conjunto == 3:
         if fichasSeparadas[0] != tableroSeparado3[0] or numeroFicha != (numeroEscalera3 + 1):
             correcto = "no"
             print("Movimiento incorrecto, vuelve a probar.")
             ficha = input("¿Qué ficha quieres usar?: ")
-            posicion = int(input("¿En qué posición la quieres colocar?: "))
+            conjunto = int(input("¿En qué conjunto la quieres colocar?: "))
         else:
             correcto = "si"
             sublista3.append(ficha)
