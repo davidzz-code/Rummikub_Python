@@ -175,50 +175,93 @@ splitFicha = fichasRummy[0].split(" ", 1)
 color = splitFicha[0]
 valorFicha = int(splitFicha[1])
 
-# Booleano para detectar que se ha realizado una acción
+# Booleano para detectar si puede pasar y si puede coger ficha, de esta manera en el
+# menu se le mostrara o no la opcion
 puedePasar = False
-pasarTurno = False
 puedeCogerFicha = True
 
-
-# Bucle princial:
-while jugando:
-    # Muestra la mano y dibuja el tablero.
-    mostrarMano(jugadorTurno, jugadores[jugadorTurno])
-    print(f"La/s ficha/s en el tablero es: {tablero}")
-
-    # Mostrar las opciones que se pueden realizar
-    mostrarTurno(puedePasar, puedeCogerFicha)
-    accion = int(input(f"Elige una accion a realizar: "))
-
-    while accion != 4:
-        if accion == 1 and puedeCogerFicha:
-            opcion1(jugadores[jugadorTurno])  # Añade una ficha a la mano del jugador
-
-        elif accion == 2:
-            opcion2()
-            puedeCogerFicha = False
-            puedePasar = True
-
-        elif accion == 3:
-            opcion3(jugadores[jugadorTurno])
-            puedeCogerFicha = False
-            puedePasar = True
-
-        elif accion == 4 and puedePasar:
-            # Pasar al siguiente turno
-            jugadorTurno += partidaTurno
-
-        else:
-            print("Opcion no valida")
+if not primerTurno:
+    # Bucle princial:
+    while jugando:
+        # Muestra la mano y dibuja el tablero.
+        mostrarMano(jugadorTurno, jugadores[jugadorTurno])
+        print(f"La/s ficha/s en el tablero es: {tablero}")
 
         # Mostrar las opciones que se pueden realizar
         mostrarTurno(puedePasar, puedeCogerFicha)
         accion = int(input(f"Elige una accion a realizar: "))
 
-    # Pasar al siguiente turno
-    jugadorTurno += partidaTurno
+        while accion != 4:
+            if accion == 1 and puedeCogerFicha:
+                opcion1(jugadores[jugadorTurno])  # Añade una ficha a la mano del jugador
 
-    # Si el turno del ultimo jugador acaba, volver a empezar los turnos
-    if jugadorTurno == numJugadores:
-        jugadorTurno = 0
+            elif accion == 2:
+                opcion2()
+                puedeCogerFicha = False
+                puedePasar = True
+
+            elif accion == 3:
+                opcion3(jugadores[jugadorTurno])
+                puedeCogerFicha = False
+                puedePasar = True
+
+            elif accion == 4 and puedePasar:
+                # Pasar al siguiente turno
+                jugadorTurno += partidaTurno
+
+            else:
+                print("Opcion no valida")
+
+            # Mostrar las opciones que se pueden realizar
+            mostrarTurno(puedePasar, puedeCogerFicha)
+            accion = int(input(f"Elige una accion a realizar: "))
+
+        # Pasar al siguiente turno
+        jugadorTurno += partidaTurno
+
+        # Si el turno del ultimo jugador acaba, volver a empezar los turnos
+        if jugadorTurno == numJugadores:
+            jugadorTurno = 0
+
+else:
+        # Bucle princial:
+    while jugando:
+        # Muestra la mano y dibuja el tablero.
+        mostrarMano(jugadorTurno, jugadores[jugadorTurno])
+        print(f"Las fichas en el tablero son: {tablero}")
+
+        # Mostrar las opciones que se pueden realizar
+        mostrarTurno(puedePasar, puedeCogerFicha)
+        accion = int(input(f"Elige una accion a realizar: "))
+
+        while accion != 4:
+            if accion == 1 and puedeCogerFicha:
+                opcion1(jugadores[jugadorTurno])  # Añade una ficha a la mano del jugador
+
+            elif accion == 2:
+                opcion2()
+                puedeCogerFicha = False
+                puedePasar = True
+
+            elif accion == 3:
+                opcion3(jugadores[jugadorTurno])
+                puedeCogerFicha = False
+                puedePasar = True
+
+            elif accion == 4 and puedePasar:
+                # Pasar al siguiente turno
+                jugadorTurno += partidaTurno
+
+            else:
+                print("Opcion no valida")
+
+            # Mostrar las opciones que se pueden realizar
+            mostrarTurno(puedePasar, puedeCogerFicha)
+            accion = int(input(f"Elige una accion a realizar: "))
+
+        # Pasar al siguiente turno
+        jugadorTurno += partidaTurno
+
+        # Si el turno del ultimo jugador acaba, volver a empezar los turnos
+        if jugadorTurno == numJugadores:
+            jugadorTurno = 0
