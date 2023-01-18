@@ -92,18 +92,40 @@ def opcion2():
     else:
         tablero[posicion - 1].append(jugadores[jugadorTurno].pop(ficha - 1))
 
+
 # Tercera opcion del turno: Anadir fichas a una nueva posicion
-def opcion3():
+def opcion3(manoJugador):
     nuevoConjunto = []
-    while ficha != "":
-        ficha = int(input("Elige la ficha que quieres añadir: "))
-        if ficha > len(jugadores[jugadorTurno]):
+    numFicha = int(
+        input(
+            "Elige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "
+        )
+    )
+
+    while True:
+        if numFicha > len(jugadores[jugadorTurno]):
             print("No tienes esta ficha en la mano.")
             return
-        nuevoConjunto.append(ficha)
-        
-    tablero.append(nuevoConjunto)
 
+        nuevoConjunto.append(jugadores[jugadorTurno].pop(numFicha - 1))
+        print("Tu nueva mano es:")
+        print("-----------------")
+        y = 1
+        for ficha in manoJugador:
+            print(f"{y}) {ficha}")
+            y += 1
+        print("")
+        print(f"El conjunto que quieres anadir, por ahora, es: {nuevoConjunto}")
+
+        numFicha = int(input("Elige otra ficha que quieres añadir: "))
+        if numFicha == 0:
+            if len(nuevoConjunto) <= 2:
+                print("El conjunto minimo debe ser de 3 fichas. Anade mas fichas.")
+            else:
+                break
+
+    tablero.append(nuevoConjunto)
+    print(f"El tablero actual es: {tablero}")
 
 
 # # Función para comprobar si se puede jugar una ficha en la mano o no.
@@ -176,10 +198,12 @@ while jugando:
         elif accion == 2:
             opcion2()
             puedeCogerFicha = False
+            puedePasar = True
 
         elif accion == 3:
-            opcion3()
+            opcion3(jugadores[jugadorTurno])
             puedeCogerFicha = False
+            puedePasar = True
 
         elif accion == 4 and puedePasar:
             # Pasar al siguiente turno
