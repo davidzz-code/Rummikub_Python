@@ -48,11 +48,14 @@ def mostrarTurno(puedePasar, puedeCogerFicha):
     if puedeCogerFicha:
         print("Opcion 1: Coger ficha")
 
-    print("Opcion 2: Añadir ficha a una posición existente.")
+    if not primerTurno:
+        print("Opcion 2: Añadir ficha a una posición existente.")
+
     print("Opcion 3: Añadir ficha a una posición nueva")
 
     if puedePasar:
         print("Opcion 4: Pasar turno")
+
 
 # Primera opcion del turno: Anadir una ficha a la mano del jugador
 def opcion1(manoJugador):
@@ -93,13 +96,15 @@ def opcion2():
         tablero[posicion - 1].append(jugadores[jugadorTurno].pop(ficha - 1))
 
     print(f"Este es el tablero:")
-    print('')
+    print("")
     print(tablero)
 
 
 # Tercera opcion del turno: Anadir fichas a una nueva posicion
 def opcion3(manoJugador):
     nuevoConjunto = []
+    valorConjunto = 0
+
     numFicha = int(
         input(
             "Elige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "
@@ -110,6 +115,9 @@ def opcion3(manoJugador):
         if numFicha > len(jugadores[jugadorTurno]):
             print("No tienes esta ficha en la mano.")
             return
+
+        splitFicha = jugadores[jugadorTurno][numFicha - 1].split(" ")
+        valorConjunto += int(splitFicha[1])
 
         nuevoConjunto.append(jugadores[jugadorTurno].pop(numFicha - 1))
 
@@ -123,23 +131,28 @@ def opcion3(manoJugador):
         print(f"El conjunto que quieres anadir, por ahora, es: {nuevoConjunto}")
 
         numFicha = int(input("Elige otra ficha que quieres añadir: "))
-        
+
         if numFicha == 0:
             if len(nuevoConjunto) <= 2:
                 print("El conjunto minimo debe ser de 3 fichas. Anade mas fichas.")
+
+            elif len(nuevoConjunto) < 1:
+                print("Debes insertar, como mínimo, una ficha.")
+                nuevoConjunto.clear()
+                
             else:
                 break
 
-    tablero.append(nuevoConjunto)
+    if primerTurno and valorConjunto <= 30:
+        print(
+            "El valor de este conjunto debe ser mayor o igual a 30. Vuelve a elegir las fichas:"
+        )
+        nuevoConjunto.clear()
+    else:
+        tablero.append(nuevoConjunto)
+
     print(f"El tablero actual es: {tablero}")
 
-
-# # Función para comprobar si se puede jugar una ficha en la mano o no.
-# def puedeJugar(color, valorFicha, manoJugador):
-#     for ficha in manoJugador:
-#         if color in ficha or valorFicha in ficha:
-#             return True
-#     return False
 
 # Crear el conjunto de fichas ordenadas aleatoriamente
 fichasRummy = conjuntoFichas()
@@ -216,6 +229,7 @@ if not primerTurno:
             elif accion == 4 and puedePasar:
                 # Pasar al siguiente turno
                 jugadorTurno += partidaTurno
+                puedeCogerFicha = True
 
             else:
                 print("Opcion no valida")
@@ -223,9 +237,6 @@ if not primerTurno:
             # Mostrar las opciones que se pueden realizar
             mostrarTurno(puedePasar, puedeCogerFicha)
             accion = int(input(f"Elige una accion a realizar: "))
-
-        # Pasar al siguiente turno
-        jugadorTurno += partidaTurno
 
         # Si el turno del ultimo jugador acaba, volver a empezar los turnos
         if jugadorTurno == numJugadores:
