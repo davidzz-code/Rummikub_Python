@@ -54,7 +54,6 @@ def mostrarTurno(puedePasar, puedeCogerFicha):
     if puedePasar:
         print("Opcion 4: Pasar turno")
 
-
 # Primera opcion del turno: Anadir una ficha a la mano del jugador
 def opcion1(manoJugador):
     manoJugador.extend(cogerFichas(1))
@@ -74,6 +73,7 @@ def opcion1(manoJugador):
 # Segunda opcion del turno: Anadir una ficha a una posicion existente
 def opcion2():
     ficha = int(input("Elige la ficha que quieres añadir: "))
+
     if ficha > len(jugadores[jugadorTurno]):
         print("No tienes esta ficha en la mano.")
         return
@@ -92,6 +92,10 @@ def opcion2():
     else:
         tablero[posicion - 1].append(jugadores[jugadorTurno].pop(ficha - 1))
 
+    print(f"Este es el tablero:")
+    print('')
+    print(tablero)
+
 
 # Tercera opcion del turno: Anadir fichas a una nueva posicion
 def opcion3(manoJugador):
@@ -102,12 +106,13 @@ def opcion3(manoJugador):
         )
     )
 
-    while True:
+    while numFicha != 0:
         if numFicha > len(jugadores[jugadorTurno]):
             print("No tienes esta ficha en la mano.")
             return
 
         nuevoConjunto.append(jugadores[jugadorTurno].pop(numFicha - 1))
+
         print("Tu nueva mano es:")
         print("-----------------")
         y = 1
@@ -118,6 +123,7 @@ def opcion3(manoJugador):
         print(f"El conjunto que quieres anadir, por ahora, es: {nuevoConjunto}")
 
         numFicha = int(input("Elige otra ficha que quieres añadir: "))
+        
         if numFicha == 0:
             if len(nuevoConjunto) <= 2:
                 print("El conjunto minimo debe ser de 3 fichas. Anade mas fichas.")
@@ -193,7 +199,9 @@ if not primerTurno:
 
         while accion != 4:
             if accion == 1 and puedeCogerFicha:
-                opcion1(jugadores[jugadorTurno])  # Añade una ficha a la mano del jugador
+                opcion1(
+                    jugadores[jugadorTurno]
+                )  # Añade una ficha a la mano del jugador
 
             elif accion == 2:
                 opcion2()
@@ -224,7 +232,7 @@ if not primerTurno:
             jugadorTurno = 0
 
 else:
-        # Bucle princial:
+    # Bucle princial:
     while jugando:
         # Muestra la mano y dibuja el tablero.
         mostrarMano(jugadorTurno, jugadores[jugadorTurno])
@@ -236,7 +244,9 @@ else:
 
         while accion != 4:
             if accion == 1 and puedeCogerFicha:
-                opcion1(jugadores[jugadorTurno])  # Añade una ficha a la mano del jugador
+                opcion1(
+                    jugadores[jugadorTurno]
+                )  # Añade una ficha a la mano del jugador
 
             elif accion == 2:
                 opcion2()
