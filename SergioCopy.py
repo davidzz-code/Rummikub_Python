@@ -43,22 +43,83 @@ def mostrarMano(jugador, manoJugador):
     print("")
 
 
-# Función para comprobar si se puede jugar una ficha en la mano o no.
-def puedeJugar(color, valorFicha, manoJugador):
-    for ficha in manoJugador:
-        if color in ficha or valorFicha in ficha:
-            return True
-    return False
+# Funcion para mostrar las opciones que tiene el jugador en su turno
+def mostrarTurno(puedePasar, puedeCogerFicha):
+    if puedeCogerFicha:
+        print("Opcion 1: Coger ficha")
 
+    print("Opcion 2: Añadir ficha a una posición existente.")
+    print("Opcion 3: Añadir ficha a una posición nueva")
+
+    if puedePasar:
+        print("Opcion 4: Pasar turno")
+
+
+# Primera opcion del turno: Anadir una ficha a la mano del jugador
+def opcion1(manoJugador):
+    manoJugador.extend(cogerFichas(1))
+
+    print("Tu ficha se ha añadido con éxito.")
+    print("")
+    print("Tu mano actual es:")
+    print("|-----------------|")
+    y = 1
+    for ficha in manoJugador:
+        print(f"{y}) {ficha}")
+        y += 1
+    print("")
+    print("Elige una nueva opcion: ")
+
+
+# Segunda opcion del turno: Anadir una ficha a una posicion existente
+def opcion2():
+    ficha = int(input("Elige la ficha que quieres añadir: "))
+    if ficha > len(jugadores[jugadorTurno]):
+        print("No tienes esta ficha en la mano.")
+        return
+
+    posicion = int(input("Elige la posicion del tablero en la que la quieres anadir: "))
+    if posicion > len(tablero):
+        print("Esta posicion no se encuentra en el tablero.")
+        return
+
+    prinFin = int(input("Al principio(1) o al final(2)? "))
+    if prinFin == 1:
+        tablero[posicion - 1] = [jugadores[jugadorTurno].pop(ficha - 1)] + tablero[
+            posicion - 1
+        ]
+
+    else:
+        tablero[posicion - 1].append(jugadores[jugadorTurno].pop(ficha - 1))
+
+# Tercera opcion del turno: Anadir fichas a una nueva posicion
+def opcion3():
+    nuevoConjunto = []
+    while ficha != "":
+        ficha = int(input("Elige la ficha que quieres añadir: "))
+        if ficha > len(jugadores[jugadorTurno]):
+            print("No tienes esta ficha en la mano.")
+            return
+        nuevoConjunto.append(ficha)
+        
+    tablero.append(nuevoConjunto)
+
+
+
+# # Función para comprobar si se puede jugar una ficha en la mano o no.
+# def puedeJugar(color, valorFicha, manoJugador):
+#     for ficha in manoJugador:
+#         if color in ficha or valorFicha in ficha:
+#             return True
+#     return False
 
 # Crear el conjunto de fichas ordenadas aleatoriamente
 fichasRummy = conjuntoFichas()
 fichasRummy = shuffleFichas(fichasRummy)
 fichasRummy = shuffleFichas(fichasRummy)
 
-# Crear listas de tablero y de posicion.
-tablero = []
-posicion = []
+# Crear lista de tablero.
+tablero = [["rojo 2"]]
 
 # Definir el número de jugadores
 jugadores = []
@@ -71,13 +132,12 @@ for jugador in range(numJugadores):
     jugadores.append(cogerFichas(14))
 
 # Definimos el turno del jugador,
-# el turno de la partida y 
+# el turno de la partida y
 # la condición para que el bucle del juego principal se cumpla mediante un booleano
 # Añadimos una primera ficha al tablero --> TO DO: quitar la ficha, porque es parte del UNO
 jugadorTurno = 0
 partidaTurno = 1
 jugando = True
-tablero.append(fichasRummy.pop(0))
 
 # Definir si es el primer turno
 primerTurno = False
@@ -93,56 +153,44 @@ splitFicha = fichasRummy[0].split(" ", 1)
 color = splitFicha[0]
 valorFicha = int(splitFicha[1])
 
+# Booleano para detectar que se ha realizado una acción
+puedePasar = False
+pasarTurno = False
+puedeCogerFicha = True
+
+
 # Bucle princial:
 while jugando:
     # Muestra la mano y dibuja el tablero.
     mostrarMano(jugadorTurno, jugadores[jugadorTurno])
     print(f"La/s ficha/s en el tablero es: {tablero}")
 
-    # Si se puede jugar, y es el primer turno, pide las tres fichas
-    if puedeJugar(color, valorFicha, jugadores[jugadorTurno]) and primerTurno:
-        fichaEscogida = int(input("¿Qué primera ficha quieres escoger? "))
-        fichaEscogida2 = int(input("¿Qué segunda ficha quieres escoger? "))
-        fichaEscogida3 = int(input("¿Qué tercera ficha quieres escoger? "))
+    # Mostrar las opciones que se pueden realizar
+    mostrarTurno(puedePasar, puedeCogerFicha)
+    accion = int(input(f"Elige una accion a realizar: "))
 
+    while accion != 4:
+        if accion == 1 and puedeCogerFicha:
+            opcion1(jugadores[jugadorTurno])  # Añade una ficha a la mano del jugador
 
-        # Si la ficha escogida no es valida segun las normas, debe escoger otra ficha.
-        while not puedeJugar(
-            color, valorFicha, [jugadores[jugadorTurno][fichaEscogida - 1]]
-        ):
-            fichaEscogida = int(
-                input("No es una ficha valida. ¿Qué ficha quieres escoger? ")
-            )
-            fichaEscogida2 = int(
-                input("No es una ficha valida. ¿Qué segunda ficha quieres escoger? ")
-            )
-            fichaEscogida3 = int(
-                input("No es una ficha valida. ¿Qué tercera ficha quieres escoger? ")
-            )
-        
-        # Se anaden las fichas a una posicion y la posicion se anade al tablero
-        posicion.append(jugadores[jugadorTurno].pop(fichaEscogida - 1))
-        posicion.append(jugadores[jugadorTurno].pop(fichaEscogida2 - 1))
-        posicion.append(jugadores[jugadorTurno].pop(fichaEscogida3 - 1))
-        tablero.append(posicion)
+        elif accion == 2:
+            opcion2()
+            puedeCogerFicha = False
 
-    # Si la mano del jugador es jugable y no es el primer turno, elige un ficha para jugarla.
-    elif puedeJugar(color, valorFicha, jugadores[jugadorTurno]) and not primerTurno:
-        fichaEscogida = int(input("¿Qué ficha quieres escoger? "))
+        elif accion == 3:
+            opcion3()
+            puedeCogerFicha = False
 
-        # Si la ficha escogida no es valida segun las normas, debe escoger otra ficha.
-        while not puedeJugar(
-            color, valorFicha, [jugadores[jugadorTurno][fichaEscogida - 1]]
-        ):
-            fichaEscogida = int(
-                input("No es una ficha valida. ¿Qué ficha quieres escoger? ")
-            )
-        tablero.append(jugadores[jugadorTurno].pop(fichaEscogida - 1))
+        elif accion == 4 and puedePasar:
+            # Pasar al siguiente turno
+            jugadorTurno += partidaTurno
 
-    # Si no tiene fichas para jugar, el programa añade una ficha a la mano del jugador.
-    else:
-        print("No puedes jugar. Debes coger otra ficha.")
-        jugadores[jugadorTurno].extend(cogerFichas(1))
+        else:
+            print("Opcion no valida")
+
+        # Mostrar las opciones que se pueden realizar
+        mostrarTurno(puedePasar, puedeCogerFicha)
+        accion = int(input(f"Elige una accion a realizar: "))
 
     # Pasar al siguiente turno
     jugadorTurno += partidaTurno
