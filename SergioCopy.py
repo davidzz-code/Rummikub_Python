@@ -48,13 +48,14 @@ def mostrarTurno(puedePasar, puedeCogerFicha):
     if puedeCogerFicha:
         print("Opcion 1: Coger ficha")
 
-    if not primerTurno:
+    if partidaTurno > 1:
         print("Opcion 2: Añadir ficha a una posición existente.")
 
     print("Opcion 3: Añadir ficha a una posición nueva")
 
     if puedePasar:
         print("Opcion 4: Pasar turno")
+
 
 # Funcion para mostrar el tablero
 def mostrarTablero(tablero):
@@ -64,6 +65,7 @@ def mostrarTablero(tablero):
         print("El tablero actual es: ")
         print(str(numero) + ". " + ", ".join(i) + ",")
         print("")
+
 
 # Primera opcion del turno: Anadir una ficha a la mano del jugador
 def opcion1(manoJugador):
@@ -89,19 +91,22 @@ def opcion2():
         print("No tienes esta ficha en la mano.")
         return
 
-    posicion = int(input("Elige la posicion del tablero en la que la quieres anadir: "))
-    if posicion > len(tablero):
-        print("Esta posicion no se encuentra en el tablero.")
+    conjunto = int(input("Elige el conjunto del tablero en la que la quieres anadir: "))
+    if conjunto > len(tablero):
+        print("Este conjunto no se encuentra en el tablero.")
         return
 
-    prinFin = int(input("Al principio(1) o al final(2)? "))
+    prinFin = int(input("Al principio (1) o al final (2)? "))
     if prinFin == 1:
-        tablero[posicion - 1] = [jugadores[jugadorTurno].pop(ficha - 1)] + tablero[
-            posicion - 1
+        tablero[conjunto - 1] = [jugadores[jugadorTurno].pop(ficha - 1)] + tablero[
+            conjunto - 1
         ]
 
-    else:
-        tablero[posicion - 1].append(jugadores[jugadorTurno].pop(ficha - 1))
+    elif prinFin == 2:
+        tablero[conjunto - 1].append(jugadores[jugadorTurno].pop(ficha - 1))
+    
+    else: 
+        print("Esa posición no existe.")
 
     mostrarTablero(tablero)
 
@@ -110,6 +115,7 @@ def opcion2():
 def opcion3(manoJugador):
     nuevoConjunto = []
     valorConjunto = 0
+    listaSoporte = []
 
     numFicha = int(
         input(
@@ -118,13 +124,20 @@ def opcion3(manoJugador):
     )
 
     while numFicha != 0:
+        # Si el número indicado supera el índice de la mnao, indica que no tiene la ficha y cierra el bucle
         if numFicha > len(jugadores[jugadorTurno]):
             print("No tienes esta ficha en la mano.")
+
             return
 
+        # Divide la ficha y suma el valor numérico
         splitFicha = jugadores[jugadorTurno][numFicha - 1].split(" ")
         valorConjunto += int(splitFicha[1])
 
+        # Añade la ficha a la lista de soporte
+        listaSoporte.append(jugadores[jugadorTurno][numFicha - 1])
+
+        # Añade la ficha al conjunto y la elimina de la mano
         nuevoConjunto.append(jugadores[jugadorTurno].pop(numFicha - 1))
 
         print("Tu nueva mano es:")
@@ -134,26 +147,30 @@ def opcion3(manoJugador):
             print(f"{y}) {ficha}")
             y += 1
         print("")
+
         print(f"El conjunto que quieres anadir, por ahora, es: {nuevoConjunto}")
 
         numFicha = int(input("Elige otra ficha que quieres añadir: "))
 
         if numFicha == 0:
             if len(nuevoConjunto) <= 2:
-                print("El conjunto minimo debe ser de 3 fichas. Anade mas fichas.")
+                print("El conjunto minimo debe ser de 3 fichas. Añade mas fichas.")
 
             elif len(nuevoConjunto) < 1:
                 print("Debes insertar, como mínimo, una ficha.")
                 nuevoConjunto.clear()
-                
+
             else:
                 break
 
-    if primerTurno and valorConjunto <= 30:
+    # Si es el primer turno y el valor del conjunto es menor a 30
+    if primerTurno and valorConjunto < 30:
         print(
             "El valor de este conjunto debe ser mayor o igual a 30. Vuelve a elegir las fichas:"
         )
         nuevoConjunto.clear()
+        manoJugador.extend(listaSoporte)
+        mostrarMano(jugadorTurno, jugadores[jugadorTurno])
     else:
         tablero.append(nuevoConjunto)
 
@@ -166,7 +183,7 @@ fichasRummy = shuffleFichas(fichasRummy)
 fichasRummy = shuffleFichas(fichasRummy)
 
 # Crear lista de tablero.
-tablero = [["rojo 2", "amarillo 2", "negro 2"]]
+tablero = []
 
 # Definir el número de jugadores
 jugadores = []
@@ -280,7 +297,8 @@ else:
                 jugadorTurno += partidaTurno
 
             else:
-                print("Opcion no valida")
+                print("Opción no válida")
+                print("")
 
             # Mostrar las opciones que se pueden realizar
             mostrarTurno(puedePasar, puedeCogerFicha)
