@@ -33,7 +33,7 @@ def cogerFichas(numFichas):
 
 # Función para mostrar la mano del jugador actual.
 def mostrarMano(jugador, manoJugador):
-    print("Player {}".format(jugador + 1))
+    print("Jugador {}".format(jugador + 1))
     print("Tu mano")
     print("|-----------------|")
     y = 1
@@ -176,6 +176,11 @@ def opcion3(manoJugador):
 
     mostrarTablero(tablero)
 
+def finalPartida(jugador):
+    print('¡ENHORABUENA!')
+    print('El juego ha acabado porque te has quedado sin fichas.')
+    print(f'El jugador{jugador + 1} es el ganador de esta partida.')
+
 
 # Crear el conjunto de fichas ordenadas aleatoriamente
 fichasRummy = conjuntoFichas()
@@ -264,6 +269,9 @@ if not primerTurno:
         # Si el turno del ultimo jugador acaba, volver a empezar los turnos
         if jugadorTurno == numJugadores:
             jugadorTurno = 0
+        
+        # Suma 1 al turno de la partida
+        partidaTurno += partidaTurno
 
 else:
     # Bucle princial:
@@ -307,6 +315,13 @@ else:
         # Pasar al siguiente turno
         jugadorTurno += partidaTurno
 
+        # Sumar 1 al turno de la partida
+        partidaTurno += partidaTurno
+
         # Si el turno del ultimo jugador acaba, volver a empezar los turnos
         if jugadorTurno == numJugadores:
             jugadorTurno = 0
+
+        if len(jugadores[jugadorTurno]) == 0: #Si la mano del jugador está vacía, gana el juego
+            jugando = False
+            finalPartida(jugadorTurno)
