@@ -33,7 +33,7 @@ def cogerFichas(numFichas):
 
 # Función para mostrar la mano del jugador actual.
 def mostrarMano(jugador, manoJugador):
-    print("Player {}".format(jugador + 1))
+    print("Jugador {}".format(jugador + 1))
     print("Tu mano")
     print("|-----------------|")
     y = 1
@@ -85,9 +85,9 @@ def opcion1(manoJugador):
 
 # Segunda opcion del turno: Anadir una ficha a una posicion existente
 def opcion2():
-    ficha = int(input("Elige la ficha que quieres añadir: "))
+    fichaUsuario = int(input("Elige la ficha que quieres añadir: "))
 
-    if ficha > len(jugadores[jugadorTurno]):
+    if fichaUsuario > len(jugadores[jugadorTurno]):
         print("No tienes esta ficha en la mano.")
         return
 
@@ -98,12 +98,12 @@ def opcion2():
 
     prinFin = int(input("Al principio (1) o al final (2)? "))
     if prinFin == 1:
-        tablero[conjunto - 1] = [jugadores[jugadorTurno].pop(ficha - 1)] + tablero[
+        tablero[conjunto - 1] = [jugadores[jugadorTurno].pop(fichaUsuario - 1)] + tablero[
             conjunto - 1
         ]
 
     elif prinFin == 2:
-        tablero[conjunto - 1].append(jugadores[jugadorTurno].pop(ficha - 1))
+        tablero[conjunto - 1].append(jugadores[jugadorTurno].pop(fichaUsuario - 1))
     
     else: 
         print("Esa posición no existe.")
@@ -117,28 +117,28 @@ def opcion3(manoJugador):
     valorConjunto = 0
     listaSoporte = []
 
-    numFicha = int(
+    fichaUsuario = int(
         input(
             "Elige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "
         )
     )
 
-    while numFicha != 0:
+    while fichaUsuario != 0:
         # Si el número indicado supera el índice de la mnao, indica que no tiene la ficha y cierra el bucle
-        if numFicha > len(jugadores[jugadorTurno]):
+        if fichaUsuario > len(jugadores[jugadorTurno]):
             print("No tienes esta ficha en la mano.")
 
             return
 
         # Divide la ficha y suma el valor numérico
-        splitFicha = jugadores[jugadorTurno][numFicha - 1].split(" ")
+        splitFicha = jugadores[jugadorTurno][fichaUsuario - 1].split(" ")
         valorConjunto += int(splitFicha[1])
 
         # Añade la ficha a la lista de soporte
-        listaSoporte.append(jugadores[jugadorTurno][numFicha - 1])
+        listaSoporte.append(jugadores[jugadorTurno][fichaUsuario - 1])
 
         # Añade la ficha al conjunto y la elimina de la mano
-        nuevoConjunto.append(jugadores[jugadorTurno].pop(numFicha - 1))
+        nuevoConjunto.append(jugadores[jugadorTurno].pop(fichaUsuario - 1))
 
         print("Tu nueva mano es:")
         print("-----------------")
@@ -150,9 +150,9 @@ def opcion3(manoJugador):
 
         print(f"El conjunto que quieres anadir, por ahora, es: {nuevoConjunto}")
 
-        numFicha = int(input("Elige otra ficha que quieres añadir: "))
+        fichaUsuario = int(input("Elige otra ficha que quieres añadir: "))
 
-        if numFicha == 0:
+        if fichaUsuario == 0:
             if len(nuevoConjunto) <= 2:
                 print("El conjunto minimo debe ser de 3 fichas. Añade mas fichas.")
 
@@ -163,7 +163,7 @@ def opcion3(manoJugador):
             else:
                 break
 
-    # Si es el primer turno y el valor del conjunto es menor a 30
+    # El conjunto del primer turno debe tener un valor superior a 30 puntos.
     if primerTurno and valorConjunto < 30:
         print(
             "El valor de este conjunto debe ser mayor o igual a 30. Vuelve a elegir las fichas:"
@@ -175,6 +175,11 @@ def opcion3(manoJugador):
         tablero.append(nuevoConjunto)
 
     mostrarTablero(tablero)
+
+def finalPartida(jugador):
+    print('¡ENHORABUENA!')
+    print('El juego ha acabado porque te has quedado sin fichas.')
+    print(f'El jugador {jugador + 1} es el ganador de esta partida.')
 
 
 # Crear el conjunto de fichas ordenadas aleatoriamente
@@ -251,8 +256,9 @@ if not primerTurno:
 
             elif accion == 4 and puedePasar:
                 # Pasar al siguiente turno
-                jugadorTurno += partidaTurno
-                puedeCogerFicha = True
+                if len(jugadores[jugadorTurno]) == 0: #Si la mano del jugador está vacía, gana el juego
+                    jugando = False
+                    finalPartida(jugadorTurno)
 
             else:
                 print("Opcion no valida")
@@ -264,11 +270,14 @@ if not primerTurno:
         # Si el turno del ultimo jugador acaba, volver a empezar los turnos
         if jugadorTurno == numJugadores:
             jugadorTurno = 0
+        
+        # Suma 1 al turno de la partida
+        partidaTurno += partidaTurno
 
 else:
-    # Bucle princial:
+        # Bucle princial:
     while jugando:
-        # Muestra la mano y dibuja el tablero.
+        # Muestra la mano y el tablero.
         mostrarMano(jugadorTurno, jugadores[jugadorTurno])
         mostrarTablero(tablero)
 
@@ -292,10 +301,6 @@ else:
                 puedeCogerFicha = False
                 puedePasar = True
 
-            elif accion == 4 and puedePasar:
-                # Pasar al siguiente turno
-                jugadorTurno += partidaTurno
-
             else:
                 print("Opción no válida")
                 print("")
@@ -304,9 +309,12 @@ else:
             mostrarTurno(puedePasar, puedeCogerFicha)
             accion = int(input(f"Elige una accion a realizar: "))
 
-        # Pasar al siguiente turno
-        jugadorTurno += partidaTurno
-
-        # Si el turno del ultimo jugador acaba, volver a empezar los turnos
-        if jugadorTurno == numJugadores:
-            jugadorTurno = 0
+        if len(jugadores[jugadorTurno]) == 0: #Si la mano del jugador está vacía, gana el juego
+            jugando = False
+            finalPartida(jugadorTurno)
+        else: 
+            # Sumar 1 al turno de la partida
+            partidaTurno += partidaTurno
+            # Si el turno del ultimo jugador acaba, volver a empezar los turnos
+            if jugadorTurno == numJugadores:
+                jugadorTurno = 0
