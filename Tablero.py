@@ -1,6 +1,7 @@
 import random
 from colorama import Back, Fore, Style, init
 from rich.console import Console
+from rich.align import Align
 
 init(autoreset = True)
 console = Console()
@@ -10,7 +11,7 @@ console = Console()
 def conjuntoFichas():
     fichas = []
 
-    colores = ["Naranja", "Azul", "Negro", "Rojo"]
+    colores = ["Amarillo", "Azul", "Negro", "Rojo"]
     valores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 
     for z in range(2):
@@ -39,12 +40,12 @@ def cogerFichas(numFichas):
 
 # Función para mostrar la mano del jugador actual.
 def mostrarMano(jugador, manoJugador):
-    print("Jugador {}".format(jugador + 1))
-    print("Tu mano")
+    console.print("Jugador {}".format(jugador + 1), style = "bold underline cyan")
+    console.print("Tu mano", style = "bold cyan")
     print("|-----------------|")
     y = 1
     for ficha in manoJugador:
-        if "Naranja" in ficha:
+        if "Amarillo" in ficha:
             print(Style.BRIGHT + Fore.YELLOW + f"{y}) {ficha}")
         if "Azul" in ficha:
             print(Style.BRIGHT + Fore.BLUE + f"{y}) {ficha}")
@@ -59,15 +60,15 @@ def mostrarMano(jugador, manoJugador):
 # Funcion para mostrar las opciones que tiene el jugador en su turno
 def mostrarTurno(puedePasar, puedeCogerFicha):
     if puedeCogerFicha:
-        print("Opcion 1: Coger ficha")
+        console.print("[bold cyan]Opcion 1:[/bold cyan] [underline]Coger ficha.[/underline]")
 
     if partidaTurno > 1:
-        print("Opcion 2: Añadir ficha a una posición existente.")
+        console.print("[bold cyan]Opcion 2:[/bold cyan] [underline]Añadir ficha a una posición existente.[/underline]")
 
-    print("Opcion 3: Añadir ficha a una posición nueva")
+    console.print("[bold cyan]Opcion 3:[/bold cyan] [underline]Añadir ficha a una posición nueva.[/underline]")
 
     if puedePasar:
-        print("Opcion 4: Pasar turno")
+        console.print("[bold cyan]Opcion 4:[/bold cyan] [underline]Pasar turno.[/underline]")
 
 
 # Funcion para mostrar el tablero
@@ -90,7 +91,14 @@ def opcion1(manoJugador):
     print("|-----------------|")
     y = 1
     for ficha in manoJugador:
-        print(f"{y}) {ficha}")
+        if "Amarillo" in ficha:
+            print(Style.BRIGHT + Fore.YELLOW + f"{y}) {ficha}")
+        if "Azul" in ficha:
+            print(Style.BRIGHT + Fore.BLUE + f"{y}) {ficha}")
+        if "Negro" in ficha:
+            print(Style.BRIGHT + Fore.BLACK + f"{y}) {ficha}")
+        if "Rojo" in ficha:
+            print(Style.BRIGHT + Fore.RED + f"{y}) {ficha}")
         y += 1
     print("")
     print("Elige una nueva opcion: ")
@@ -132,7 +140,7 @@ def opcion3(manoJugador):
 
     fichaUsuario = int(
         input(
-            "Elige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "
+            "Elige la ficha que quieres añadir. Si no quieres añadir mas, inserta 0: "
         )
     )
 
@@ -157,11 +165,18 @@ def opcion3(manoJugador):
         print("-----------------")
         y = 1
         for ficha in manoJugador:
-            print(f"{y}) {ficha}")
+            if "Amarillo" in ficha:
+                print(Style.BRIGHT + Fore.YELLOW + f"{y}) {ficha}")
+            if "Azul" in ficha:
+                print(Style.BRIGHT + Fore.BLUE + f"{y}) {ficha}")
+            if "Negro" in ficha:
+                print(Style.BRIGHT + Fore.BLACK + f"{y}) {ficha}")
+            if "Rojo" in ficha:
+                print(Style.BRIGHT + Fore.RED + f"{y}) {ficha}")
             y += 1
         print("")
 
-        print(f"El conjunto que quieres anadir, por ahora, es: {nuevoConjunto}")
+        print(f"El conjunto que quieres añadir, por ahora, es: {nuevoConjunto}")
 
         fichaUsuario = int(input("Elige otra ficha que quieres añadir: "))
 
@@ -205,7 +220,8 @@ tablero = []
 
 # Definir el número de jugadores
 jugadores = []
-numJugadores = int(input("¿Cuántos jugadores? "))
+console.print("!Bienvenido a Rummikub!", justify = "center", style = "bold cyan")
+numJugadores = int(input("¿Cuántos jugadores serán? "))
 while numJugadores < 2 or numJugadores > 4:
     numJugadores = int(input("Inválido. Por favor, inserta un número entre 2 y 4. "))
 
