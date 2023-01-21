@@ -102,19 +102,6 @@ def opcion2():
         reglasOpcion2()
         return
 
-
-    # prinFin = int(input("Al principio (1) o al final (2)? "))
-    # if prinFin == 1:
-    #     tablero[conjunto - 1] = [jugadores[jugadorTurno].pop(fichaUsuario - 1)] + tablero[
-    #         conjunto - 1
-    #     ]
-
-    # elif prinFin == 2:
-    #     tablero[conjunto - 1].append(jugadores[jugadorTurno].pop(fichaUsuario - 1))
-    
-    # else: 
-    #     print("Esa posición no existe.")
-
     mostrarTablero(tablero)
 
 
@@ -127,11 +114,7 @@ def opcion3(manoJugador):
     valorConjunto = 0
     listaSoporte = []
 
-    fichaUsuario = int(
-        input(
-            "Elige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "
-        )
-    )
+    fichaUsuario = int(input("Elige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "))
 
     while fichaUsuario != 0:
         # Si el número indicado supera el índice de la mnao, indica que no tiene la ficha y cierra el bucle
@@ -140,26 +123,12 @@ def opcion3(manoJugador):
             return
 
         # Divide la ficha y suma el valor numérico
-        if jugadorTurno == 0:
-            splitFicha = jugadores[0][fichaUsuario - 1].split(" ")
-        elif jugadorTurno == 1:
-            splitFicha = jugadores[1][fichaUsuario - 1].split(" ")
-        elif jugadorTurno == 2:
-            splitFicha = jugadores[2][fichaUsuario - 1].split(" ")
-        elif jugadorTurno == 3:
-            splitFicha = jugadores[3][fichaUsuario - 1].split(" ")
+        splitFicha = jugadores[jugadorTurno][fichaUsuario - 1].split(" ")
 
         valorConjunto += int(splitFicha[1])
 
         # Añade la ficha a la lista de soporte
-        if jugadorTurno == 0:
-            listaSoporte.append(jugadores[0][fichaUsuario - 1])
-        elif jugadorTurno == 1:
-            listaSoporte.append(jugadores[1][fichaUsuario - 1])
-        elif jugadorTurno == 2:
-            listaSoporte.append(jugadores[2][fichaUsuario - 1])
-        elif jugadorTurno == 3:
-            listaSoporte.append(jugadores[3][fichaUsuario - 1])
+        listaSoporte.append(jugadores[jugadorTurno][fichaUsuario - 1])
 
         # Añade la ficha al conjunto y la elimina de la mano
         if len(nuevoConjunto) == 0:
@@ -193,9 +162,7 @@ def opcion3(manoJugador):
 
     # Si es el primer turno y el valor del conjunto es menor a 30
     if primerTurno and valorConjunto < 30:
-        print(
-            "El valor de este conjunto debe ser mayor o igual a 30. Vuelve a elegir las fichas:"
-        )
+        print("El valor de este conjunto debe ser mayor o igual a 30. Vuelve a elegir las fichas:")
         nuevoConjunto.clear()
         manoJugador.extend(listaSoporte)
         mostrarMano(jugadorTurno, jugadores[jugadorTurno])
@@ -215,15 +182,7 @@ def finalPartida(jugador):
 # Reglas escalera y tíos para la opción 2
 def reglasOpcion2():
     # Guarda el color y por otro lado el número de la ficha seleccionada
-    if jugadorTurno == 0:
-        colorFichaUsuario = jugadores[0][fichaUsuario - 1].split(" ")
-    elif jugadorTurno == 1:
-        colorFichaUsuario = jugadores[1][fichaUsuario - 1].split(" ")
-    elif jugadorTurno == 2:
-        colorFichaUsuario = jugadores[2][fichaUsuario - 1].split(" ")
-    elif jugadorTurno == 3:
-        colorFichaUsuario = jugadores[3][fichaUsuario - 1].split(" ")
-
+    colorFichaUsuario = jugadores[jugadorTurno][fichaUsuario - 1].split(" ")
     numeroFichaUsuario = int(colorFichaUsuario.pop(1))
 
     # Crea lista de colores y números de las fichas del tablero por separado
@@ -256,14 +215,7 @@ def reglasOpcion2():
 
             else:
                 correcto = True
-                if jugadorTurno == 0:
-                    tablero[conjunto - 1].append(jugadores[0][fichaUsuario - 1])
-                elif jugadorTurno == 1:
-                    tablero[conjunto - 1].append(jugadores[1][fichaUsuario - 1])
-                elif jugadorTurno == 2:
-                    tablero[conjunto - 1].append(jugadores[2][fichaUsuario - 1])
-                elif jugadorTurno == 3:
-                    tablero[conjunto - 1].append(jugadores[3][fichaUsuario - 1])
+                tablero[conjunto - 1].append(jugadores[jugadorTurno][fichaUsuario - 1])
                 mostrarTablero(tablero)
                 print("Ficha añadida!")
     else:
@@ -278,42 +230,19 @@ def reglasOpcion2():
                 correcto = True
                 listaNumerosTablero.append(numeroFichaUsuario)
                 listaNumerosTablero.sort()
-                if jugadorTurno == 0:
-                    tablero[conjunto - 1].insert(0, jugadores[0][fichaUsuario - 1])
-                elif jugadorTurno == 1:
-                    tablero[conjunto - 1].insert(0, jugadores[1][fichaUsuario - 1])
-                elif jugadorTurno == 2:
-                    tablero[conjunto - 1].insert(0, jugadores[2][fichaUsuario - 1])
-                elif jugadorTurno == 3:
-                    tablero[conjunto - 1].insert(0, jugadores[3][fichaUsuario - 1])
-
+                tablero[conjunto - 1].insert(0, jugadores[jugadorTurno][fichaUsuario - 1])
                 mostrarTablero(tablero)
 
             else:
                 correcto = True
-                if jugadorTurno == 0:
-                    tablero[conjunto - 1].append(jugadores[0][fichaUsuario - 1])
-                if jugadorTurno == 1:
-                    tablero[conjunto - 1].append(jugadores[1][fichaUsuario - 1])
-                if jugadorTurno == 2:
-                    tablero[conjunto - 1].append(jugadores[2][fichaUsuario - 1])
-                if jugadorTurno == 3:
-                    tablero[conjunto - 1].append(jugadores[3][fichaUsuario - 1])
-
+                tablero[conjunto - 1].append(jugadores[jugadorTurno][fichaUsuario - 1])
                 mostrarTablero(tablero)
 
 
 # Reglas escalera y tíos para la opción 3
 def reglasOpcion3():
     # Guarda el color y por otro lado el número de la ficha seleccionada
-    if jugadorTurno == 0:
-        colorFichaUsuario = jugadores[0][fichaUsuario - 1].split(" ")
-    elif jugadorTurno == 1:
-        colorFichaUsuario = jugadores[1][fichaUsuario - 1].split(" ")
-    elif jugadorTurno == 2:
-        colorFichaUsuario = jugadores[2][fichaUsuario - 1].split(" ")
-    elif jugadorTurno == 3:
-        colorFichaUsuario = jugadores[3][fichaUsuario - 1].split(" ")
+    colorFichaUsuario = jugadores[jugadorTurno][fichaUsuario - 1].split(" ")
     numeroFichaUsuario = int(colorFichaUsuario.pop(1))
 
     # Crea lista de colores y números de las fichas por separado del nuevo conjunto que se está creando 
@@ -344,14 +273,7 @@ def reglasOpcion3():
 
             else:
                 correcto = True
-                if jugadorTurno == 0:
-                    nuevoConjunto.append(jugadores[0][fichaUsuario - 1])
-                elif jugadorTurno == 1:
-                    nuevoConjunto.append(jugadores[1][fichaUsuario - 1])
-                elif jugadorTurno == 2:
-                    nuevoConjunto.append(jugadores[2][fichaUsuario - 1])
-                elif jugadorTurno == 3:
-                    nuevoConjunto.append(jugadores[3][fichaUsuario - 1])
+                nuevoConjunto.append(jugadores[jugadorTurno][fichaUsuario - 1])
                 mostrarTablero(tablero)
                 print("Ficha añadida con éxito!")
     else:
@@ -366,19 +288,13 @@ def reglasOpcion3():
                 correcto = True
                 listaNumerosTablero.append(numeroFichaUsuario)
                 listaNumerosTablero.sort()
-                if jugadorTurno == 0:
-                    nuevoConjunto.insert(0, jugadores[0][fichaUsuario - 1])
-                elif jugadorTurno == 1:
-                    nuevoConjunto.insert(0, jugadores[1][fichaUsuario - 1])
-                elif jugadorTurno == 2:
-                    nuevoConjunto.insert(0, jugadores[2][fichaUsuario - 1])
-                elif jugadorTurno == 3:
-                    nuevoConjunto.insert(0, jugadores[3][fichaUsuario - 1])
+                nuevoConjunto.insert(0, jugadores[jugadorTurno][fichaUsuario - 1])
+
                 mostrarTablero(tablero)
                 
             else:
                 correcto = True
-                nuevoConjunto.append(jugadores[0][fichaUsuario - 1])
+                nuevoConjunto.append(jugadores[jugadorTurno][fichaUsuario - 1])
                 mostrarTablero(tablero)
 
 
@@ -473,7 +389,6 @@ if not primerTurno:
         
         # Suma 1 al turno de la partida
         partidaTurno += partidaTurno
-
 else:
     # Bucle princial:
     while jugando:
