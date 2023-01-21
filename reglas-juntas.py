@@ -26,11 +26,7 @@ for i in tablero[conjunto - 1]:
     listaNumerosTablero.append(numeroConjunto)
 
 
-# Valora si es posible colocar la ficha en un trío
-
-##### Arreglar que se queda pillado en "movimiento incorrecto"
 correcto = False
-
 
 if listaNumerosTablero[0] == listaNumerosTablero[1]:
     # Tríos
@@ -69,24 +65,31 @@ if listaNumerosTablero[0] == listaNumerosTablero[1]:
             tableroFunction(tablero)
             print("Ficha añadida con éxito!")
 else:
-    # Escalera
+    # Valora si es posible colocar la ficha en una escalera
     correcto = False
     while correcto == False:
-        if colorFichaUsuario != colorConjunto or numeroFichaUsuario != (numeroConjunto + 1):
+        if colorFichaUsuario != colorConjunto or numeroFichaUsuario != (listaNumerosTablero[-1] + 1) and  numeroFichaUsuario != (listaNumerosTablero[0] - 1):
             print("Movimiento incorrecto, vuelve a probar.")
-            ficha = input("¿Qué ficha quieres usar?: ")
+            fichaUsuario = input("¿Qué ficha quieres usar?: ")
             conjunto = int(input("¿En qué conjunto la quieres colocar?: "))
 
-            colorFichaUsuario = ficha.split(" ")
+            colorFichaUsuario = fichaUsuario.split(" ")
             numeroFichaUsuario = int(colorFichaUsuario.pop(1))
-            
+
             for i in tablero[conjunto - 1]:
                 colorConjunto = i.split(" ")
                 numeroConjunto = int(colorConjunto.pop(1))
                 listaColoresTablero.append(colorConjunto[0])
                 listaNumerosTablero.append(numeroConjunto)
+
+        elif numeroFichaUsuario == (listaNumerosTablero[0] - 1):
+            correcto = True
+            listaNumerosTablero.append(numeroFichaUsuario)
+            listaNumerosTablero.sort()
+            tablero[conjunto - 1].insert(0, fichaUsuario)
+            tableroFunction(tablero)
+            
         else:
             correcto = True
-            tablero[conjunto - 1].append(ficha)
+            tablero[conjunto - 1].append(fichaUsuario)
             tableroFunction(tablero)
-
