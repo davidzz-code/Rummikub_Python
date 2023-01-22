@@ -127,7 +127,6 @@ def opcion3(manoJugador):
         # Si el número indicado supera el índice de la mnao, indica que no tiene la ficha y cierra el bucle
         if fichaUsuario > len(jugadores[jugadorTurno]):
             print("No tienes esta ficha en la mano.")
-
             return
 
         # Divide la ficha y suma el valor numérico
