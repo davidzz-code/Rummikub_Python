@@ -1,4 +1,74 @@
 import random
+import os, sys, time, math
+
+# Funciones para escribir en color
+def prRed(skk, end="\n"): print("\033[31m {}\033[00m" .format(skk), end= end)
+def prOrange(skk, end="\n"): print("\033[33m {}\033[00m" .format(skk), end= end)
+def prBlue(skk, end="\n"): print("\033[34m {}\033[00m" .format(skk), end= end)
+def prPurple(skk, end="\n"): print("\033[35m {}\033[00m" .format(skk), end= end)
+def prGreen(skk, end="\n"): print("\033[32m {}\033[00m" .format(skk), end= end)
+
+# Función para borrar la terminal
+def borrarTerminal():
+    os.system("cls")
+
+# Función para pintar una ficha de un color. Sin salto de linea
+def pintarFichaColor(text, color):
+    if color == "Rojo":
+        prRed(text, end="")
+        return
+    if color == "Negro":
+        prPurple(text, end="")
+        return
+    if color == "Azul":
+        prBlue(text, end="")
+        return
+    if color == "Naranja":
+        prOrange(text, end="")
+        return
+    print(text, end="")
+
+# Bienvendia al juego
+def darBienvenida():
+    borrarTerminal()
+    print(" ____                                    _   _  __          _      \n"+
+            "|  _ \   _   _   _ __ ___    _ __ ___   (_) | |/ /  _   _  | |__  \n"+
+            "| |_) | | | | | | '_ ` _ \  | '_ ` _ \  | | | ' /  | | | | | '_ \ \n"+
+            "|  _ <  | |_| | | | | | | | | | | | | | | | | . \  | |_| | | |_) |\n"+
+            "|_| \_\  \__,_| |_| |_| |_| |_| |_| |_| |_| |_|\_\  \__,_| |_.__/ \n")
+    print("\n\n")
+    print("¡Bienvenidos!\n"+
+          "Estamos preparandolo todo para poder iniciar el juego cuanto antes.\n"+
+          "Antes de nada necesitamos saber algunas cosas para ajustart la partida.\n")
+
+# Cargar el juego
+def progressBar():
+    total = 30
+    for i in range(total):
+        percent = math.trunc(i/total * 100)
+        print("Cargando: [" +"#"*i +"."*(total-i)+"] " + str(percent) + " %")
+        # Hacemos subir el cursos una linea
+        sys.stdout.write("\033[F")
+        time.sleep(0.15)
+    print("Cargando: [" +"#"*total +"] " + "100 %")
+
+# Función para dar inicio al juego
+def startGameTxt():
+    print("\n\n¡TODO LISTO¡\n¡A JUGAR!")
+    print("Mucha suerte y que gane el mejor")
+    time.sleep(1.5)
+
+# Función para imprimir el estado de todo el juego por pantalla
+def mostrarEstadoJuego(numJugador, manoJugador):
+    print("JUGADOR {}".format(numJugador + 1))
+    print("\n\t■ El tablero actual es: ")
+    mostrarTablero(tablero)
+    print("\n\t■ Tu mano")
+    mostrarMano(manoJugador)
+
+    # Mostrar las opciones que se pueden realizar
+    print("\n\t■ Las acciones que puedes hacer son:")
+    mostrarTurno(puedePasar, puedeCogerFicha)
 
 # Función para crear las fichas con las que se va a jugar.
 def conjuntoFichas():
@@ -14,14 +84,12 @@ def conjuntoFichas():
                 fichas.append(fichaVal)
     return fichas
 
-
 # Función para randomizar fichas.
 def shuffleFichas(fichas):
     for fichasPos in range(len(fichas)):
         randPos = random.randint(0, 51)
         fichas[fichasPos], fichas[randPos] = fichas[randPos], fichas[fichasPos]
     return fichas
-
 
 # Función para coger fichas.
 def cogerFichas(numFichas):
@@ -30,48 +98,71 @@ def cogerFichas(numFichas):
         fichasJugador.append(fichasRummy.pop(0))
     return fichasJugador
 
-
 # Función para mostrar la mano del jugador actual.
-def mostrarMano(jugador, manoJugador):
-    print("Jugador {}".format(jugador + 1))
-    print("Tu mano")
-    print("|-----------------|")
+def mostrarMano(manoJugador):
+    print("|"+"-"*120+"|")
+    porFila = 7
     y = 1
-    for ficha in manoJugador:
-        print(f"{y}) {ficha}")
-        y += 1
-    print("")
-
+    for fila in range(math.ceil(len(manoJugador)/porFila)):
+        for x in range(porFila):
+            if y > len(manoJugador):
+                break
+            splitFicha = manoJugador[x+(fila*porFila)].split(" ", 1)
+            color = splitFicha[0]
+            print(f"({y})", end = "")
+            pintarFichaColor(f"{manoJugador[x+(fila*porFila)]}\t", color)
+            y += 1
+        print("")
+    print("|"+"-"*120+"|")
 
 # Funcion para mostrar las opciones que tiene el jugador en su turno
 def mostrarTurno(puedePasar, puedeCogerFicha):
     if puedeCogerFicha:
-        print("Opcion 1: Coger ficha")
+        prGreen("Opcion 1", end = "")
+        print(": Coger ficha")
 
-    if partidaTurno > 1 or len(tablero) > 1:
-        print("Opcion 2: Añadir ficha a una posición existente.")
+    if partidaTurno > 1 or len(tablero) >= 1:
+        prGreen("Opcion 2", end = "")
+        print(": Añadir ficha a una posición existente.")
 
-    print("Opcion 3: Añadir ficha a una posición nueva")
+    prGreen("Opcion 3", end = "")
+    print(": Añadir ficha a una posición nueva")
 
     if puedePasar:
-        print("Opcion 4: Pasar turno")
+        prGreen("Opcion 4", end = "")
+        print(": Pasar turno")
 
+#Función para pintar una monton del tablero
+def mostrarMonton(monton):
+    f = 1
+    for ficha in monton:
+        splitFicha = ficha.split(" ", 1)
+        color = splitFicha[0]
+        pintarFichaColor(f"{ficha}", color)
+        f += 1
+        if f <= len(monton):
+            print(" -", end="")
 
 # Funcion para mostrar el tablero
 def mostrarTablero(tablero):
-    numero = 0
-    print("El tablero actual es: ")
-    for i in tablero:
-        numero += 1
-        print(str(numero) + ". " + ", ".join(i) + ",")
+    print("|"+"-"*120+"|")
+    porFila = 3
+    numero = 1
+    for fila in range(math.ceil(len(tablero)/ porFila)):
+        for x in range(porFila):
+            if numero > len(tablero):
+                break
+            print(f"({numero})", end="")
+            mostrarMonton(tablero[x + (fila*porFila)])
+            print("\t\t", end="")
+            numero += 1
         print("")
-
+    print("|"+"-"*120+"|")
 
 # Primera opcion del turno: Anadir una ficha a la mano del jugador
 def opcion1(manoJugador):
     manoJugador.extend(cogerFichas(1))
-    print("Tu ficha se ha añadido con éxito.")
-
+    prGreen("\nTu ficha se ha añadido con éxito.")
 
 # Segunda opcion del turno: Anadir una ficha a una posicion existente
 def opcion2():
@@ -80,16 +171,15 @@ def opcion2():
     fichaUsuario = int(input("Elige la ficha que quieres añadir: "))
 
     if fichaUsuario > len(jugadores[jugadorTurno]):
-        print("No tienes esta ficha en la mano.")
+        prRed("\tNo tienes esta ficha en la mano.")
         return False
 
     conjunto = int(input("Elige el conjunto del tablero en la que la quieres anadir: "))
     if conjunto > len(tablero):
-        print("Este conjunto no se encuentra en el tablero.")
+        prRed("\tEste conjunto no se encuentra en el tablero.")
         return False
     elif conjunto <= len(tablero): 
         return reglasOpcion2()
-
 
 # Tercera opcion del turno: Anadir fichas a una nueva posicion
 def opcion3(manoJugador):
@@ -100,11 +190,11 @@ def opcion3(manoJugador):
     acabarMonton = False
 
     while not acabarMonton:
-        fichaUsuario = int(input("Elige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "))
+        fichaUsuario = int(input("\nElige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "))
         
         if fichaUsuario == 0:
             if len(nuevoConjunto) <= 2:
-                print("El conjunto mínimo debe ser de 3 fichas.")
+                prRed("\tEl conjunto mínimo debe ser de 3 fichas.")
                 cancelOpcion = input("¿Quieres cancelar la operación? (s/n)")
 
                 if str(cancelOpcion).lower() == "s":
@@ -114,7 +204,7 @@ def opcion3(manoJugador):
 
 
                 elif str(cancelOpcion).lower() != "n" or str(cancelOpcion).lower() != "s":
-                    print("Opción no válida.")
+                    prRed("\tOpción no válida.")
 
             else:
                 acabarMonton = True
@@ -122,40 +212,44 @@ def opcion3(manoJugador):
 
         # Si el número indicado supera el índice de la mano, indica que no tiene la ficha y cierra el bucle
         elif fichaUsuario > len(jugadores[jugadorTurno]):
-            print("No tienes esta ficha en la mano.")
+            prRed("\tNo tienes esta ficha en la mano.")
 
         else:
             # Añade la ficha al conjunto y la elimina de la mano
             if len(nuevoConjunto) == 0:
                 nuevoConjunto.append(jugadores[jugadorTurno][fichaUsuario - 1])
                 jugadores[jugadorTurno].pop(fichaUsuario - 1)
-                print("Ficha añadida con éxito!")
+                prGreen("\nTu ficha se ha añadido con éxito.")
             else:
                 if reglasOpcion3():
                     nuevoConjunto.append(jugadores[jugadorTurno][fichaUsuario - 1])
                     jugadores[jugadorTurno].pop(fichaUsuario - 1)
-                    print("Ficha añadida con éxito!")
+                    prGreen("\nTu ficha se ha añadido con éxito.")
                 else:
-                    print("No se puede añadir esta ficha al conjunto.")
+                    prRed("\tNo se puede añadir esta ficha al conjunto.")
 
-            print("Tu mano actual es:")
-            print("-----------------")
-            y = 1
-            for ficha in manoJugador:
-                print(f"{y}) {ficha}")
-                y += 1
-            print("")
+            print("\n\n\t■ Tu nueva mano es: ")
+            mostrarMano(manoJugador)
 
-            print(f"El conjunto que quieres anadir, por ahora, es: {nuevoConjunto}")
+            print("\n\t■ El conjunto que quieres anadir, por ahora, es: ", end = "")
+            mostrarMonton(nuevoConjunto)
 
     return len(nuevoConjunto) != 0
 
 # Función para acabar la partida
 def finalPartida(jugador):
-    print('¡ENHORABUENA!')
-    print('El juego ha acabado porque te has quedado sin fichas.')
-    print(f'El jugador{jugador + 1} es el ganador de esta partida.')
+    borrarTerminal()
+    
+    print("El juego ha acabado ¡Te has quedado sin fichas!")
+    print("EL GANADOR ES:\n")
+    print(f'\tEl jugador {jugador + 1}\n')
 
+    print(  " _ ______ _   _ _    _  ____  _____            ____  _    _ ______ _   _          _  \n"+
+            "(_)  ____| \ | | |  | |/ __ \|  __ \     /\   |  _ \| |  | |  ____| \ | |   /\   | | \n"+
+            "| | |__  |  \| | |__| | |  | | |__) |   /  \  | |_) | |  | | |__  |  \| |  /  \  | | \n"+
+            "| |  __| | . ` |  __  | |  | |  _  /   / /\ \ |  _ <| |  | |  __| | . ` | / /\ \ | | \n"+
+            "| | |____| |\  | |  | | |__| | | \ \  / ____ \| |_) | |__| | |____| |\  |/ ____ \|_| \n"+
+            "|_|______|_| \_|_|  |_|\____/|_|  \_\/_/    \_\____/ \____/|______|_| \_/_/    \_(_) ")
 
 # Reglas escalera y tíos para la opción 2
 def reglasOpcion2():
@@ -184,24 +278,24 @@ def reglasOpcion2():
         correcto = False
         while not correcto:
             if colorFichaUsuario[0] in listaColoresTablero:
-                print("Movimiento incorrecto, vuelve a probar.")
+                prRed("\tMovimiento incorrecto, vuelve a probar.")
                 return False
 
             elif numeroFichaUsuario != numeroConjunto:
-                print("Movimiento incorrecto, vuelve a probar.")
+                prRed("\tMovimiento incorrecto, vuelve a probar.")
                 return False
 
             else:
                 correcto = True
                 tablero[conjunto - 1].append(jugadores[jugadorTurno][fichaUsuario - 1])
-                print("Ficha añadida!")
+                prGreen("\nTu ficha se ha añadido con éxito.")
                 return True
     else:
         # REGLA - ESCALERA
         correcto = False
         while correcto == False:
             if colorFichaUsuario != colorConjunto or numeroFichaUsuario != (listaNumerosTablero[-1] + 1) and  numeroFichaUsuario != (listaNumerosTablero[0] - 1):
-                print("Movimiento incorrecto, vuelve a probar.")
+                prRed("\tMovimiento incorrecto, vuelve a probar.")
                 return False
 
             elif numeroFichaUsuario == (listaNumerosTablero[0] - 1):
@@ -241,11 +335,11 @@ def reglasOpcion3():
         correcto = False
         while not correcto:
             if colorFichaUsuario[0] in listaColoresTablero:
-                print("Movimiento incorrecto, vuelve a probar.")
+                prRed("\tMovimiento incorrecto, vuelve a probar.")
                 return False
 
             elif numeroFichaUsuario != numeroConjunto:
-                print("Movimiento incorrecto, vuelve a probar.")
+                prRed("\tMovimiento incorrecto, vuelve a probar.")
                 return False
 
             else:
@@ -256,18 +350,15 @@ def reglasOpcion3():
         correcto = False
         while not correcto:
             if colorFichaUsuario != colorConjunto or numeroFichaUsuario != (listaNumerosTablero[-1] + 1) and  numeroFichaUsuario != (listaNumerosTablero[0] - 1):
-                print("Movimiento incorrecto, vuelve a probar.")
+                prRed("\tMovimiento incorrecto, vuelve a probar.")
                 return False
 
             elif numeroFichaUsuario == (listaNumerosTablero[0] - 1):
                 correcto = True
                 listaNumerosTablero.append(numeroFichaUsuario)
                 listaNumerosTablero.sort()
-                nuevoConjunto.insert(jugadores[jugadorTurno].pop(fichaUsuario - 1))
-
             else:
                 correcto = True
-                nuevoConjunto.append(jugadores[jugadorTurno].pop(fichaUsuario - 1))
         return correcto
 
 
@@ -279,11 +370,17 @@ fichasRummy = shuffleFichas(fichasRummy)
 # Crear lista de tablero.
 tablero = []
 
+darBienvenida()
+
 # Definir el número de jugadores
 jugadores = []
 numJugadores = int(input("¿Cuántos jugadores? "))
 while numJugadores < 2 or numJugadores > 4:
-    numJugadores = int(input("Inválido. Por favor, inserta un número entre 2 y 4. "))
+    prRed("\tInválido. Por favor, inserta un número entre 2 y 4.\n")
+    numJugadores = int(input("¿Cuántos jugadores? "))
+
+print("¡Perfecto! En unos segundos estará todo listo.\n")
+progressBar()
 
 # Se reparten 14 fichas por cada jugador en juego
 for jugador in range(numJugadores):
@@ -310,6 +407,8 @@ valorFicha = int(splitFicha[1])
 puedePasar = False
 puedeCogerFicha = True
 
+startGameTxt()
+
 # Bucle princial:
 while jugando:
 
@@ -321,15 +420,10 @@ while jugando:
         acabarAccion = False
 
         while not acabarAccion:
-
+            borrarTerminal()
             # Muestra la mano y el tablero.
-            mostrarMano(jugadorTurno, jugadores[jugadorTurno])
-            mostrarTablero(tablero)
-
-            # Mostrar las opciones que se pueden realizar
-            mostrarTurno(puedePasar, puedeCogerFicha)
-
-            accion = int(input(f"Elige una accion a realizar: "))
+            mostrarEstadoJuego(jugadorTurno, jugadores[jugadorTurno])
+            accion = int(input("\n¿Qué acción quieres hacer?: "))
         
             if accion == 1 and puedeCogerFicha:
                 # Añade una ficha a la mano del jugador
@@ -353,7 +447,7 @@ while jugando:
                 acabarAccion = True
 
             else:
-                print("Opcion no valida")
+                prRed("\tOpcion no valida")
 
 #Si es primer turno:        
     else:
@@ -362,13 +456,10 @@ while jugando:
         acabarAccion = False
 
         while not acabarAccion:
-            # Muestra la mano y dibuja el tablero.
-            mostrarMano(jugadorTurno, jugadores[jugadorTurno])
-            mostrarTablero(tablero)
-
-            # Mostrar las opciones que se pueden realizar
-            mostrarTurno(puedePasar, puedeCogerFicha)
-            accion = int(input(f"Elige una accion a realizar: "))
+            borrarTerminal()
+            # Muestra la mano y el tablero.
+            mostrarEstadoJuego(jugadorTurno, jugadores[jugadorTurno])
+            accion = int(input("\n¿Qué acción quieres hacer?: "))
 
             if accion == 1 and puedeCogerFicha:
                 # Añade una ficha a la mano del jugador
@@ -396,13 +487,13 @@ while jugando:
 
                 # Comprueba que tenga 30 puntos en el valor de sus fichas
                 if valorFichas < 30:
-                    print("El valor de los conjuntos añadidos no es mayor de 30.")
+                    prRed("\tEl valor de los conjuntos añadidos no es mayor de 30.")
                 else:
                     acabarAccion = True
                     if partidaTurno == numJugadores:
                         primerTurno = False
             else:
-                print("Opción no válida \n")
+                prRed("\tOpción no válida \n")
 
     if len(jugadores[jugadorTurno]) == 0: #Si la mano del jugador está vacía, se acaba el juego
         jugando = False
@@ -410,6 +501,7 @@ while jugando:
     else:
         # Pasar al siguiente turno
         jugadorTurno = jugadorTurno + 1
+        time.sleep(1.5)
         
         if jugadorTurno == numJugadores:
             jugadorTurno = 0
