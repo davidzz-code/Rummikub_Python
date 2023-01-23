@@ -4,6 +4,7 @@ from rich.progress import track
 
 console = Console()
 
+#################################### FUNCIONES ESTETICAS ####################################
 # Funciones para escribir en color
 def prRed(ficha, end="\n"):
     print("\033[31m {}\033[00m".format(ficha), end=end)
@@ -94,6 +95,26 @@ def startGameTxt():
     console.print("Mucha suerte y que gane el mejor", justify="center")
     time.sleep(1.5)
 
+
+# Función para acabar la partida
+def finalPartida(jugador):
+    borrarTerminal()
+
+    print("El juego ha acabado ¡Te has quedado sin fichas!")
+    print("EL GANADOR ES:\n")
+    print(f"\tEl jugador {jugador + 1}\n")
+
+    print(
+        " _ ______ _   _ _    _  ____  _____            ____  _    _ ______ _   _          _  \n"
+        + "(_)  ____| \ | | |  | |/ __ \|  __ \     /\   |  _ \| |  | |  ____| \ | |   /\   | | \n"
+        + "| | |__  |  \| | |__| | |  | | |__) |   /  \  | |_) | |  | | |__  |  \| |  /  \  | | \n"
+        + "| |  __| | . ` |  __  | |  | |  _  /   / /\ \ |  _ <| |  | |  __| | . ` | / /\ \ | | \n"
+        + "| | |____| |\  | |  | | |__| | | \ \  / ____ \| |_) | |__| | |____| |\  |/ ____ \|_| \n"
+        + "|_|______|_| \_|_|  |_|\____/|_|  \_\/_/    \_\____/ \____/|______|_| \_/_/    \_(_) "
+    )
+
+
+#################################### FUNCIONES DEL JUEGO ####################################
 
 # Función para imprimir el estado de todo el juego por pantalla
 def mostrarEstadoJuego(numJugador, manoJugador):
@@ -293,24 +314,6 @@ def opcion3(manoJugador):
     return len(nuevoConjunto) != 0
 
 
-# Función para acabar la partida
-def finalPartida(jugador):
-    borrarTerminal()
-
-    print("El juego ha acabado ¡Te has quedado sin fichas!")
-    print("EL GANADOR ES:\n")
-    print(f"\tEl jugador {jugador + 1}\n")
-
-    print(
-        " _ ______ _   _ _    _  ____  _____            ____  _    _ ______ _   _          _  \n"
-        + "(_)  ____| \ | | |  | |/ __ \|  __ \     /\   |  _ \| |  | |  ____| \ | |   /\   | | \n"
-        + "| | |__  |  \| | |__| | |  | | |__) |   /  \  | |_) | |  | | |__  |  \| |  /  \  | | \n"
-        + "| |  __| | . ` |  __  | |  | |  _  /   / /\ \ |  _ <| |  | |  __| | . ` | / /\ \ | | \n"
-        + "| | |____| |\  | |  | | |__| | | \ \  / ____ \| |_) | |__| | |____| |\  |/ ____ \|_| \n"
-        + "|_|______|_| \_|_|  |_|\____/|_|  \_\/_/    \_\____/ \____/|______|_| \_/_/    \_(_) "
-    )
-
-
 # Reglas escalera y tíos para la opción 2
 def reglasOpcion2():
     # Guarda el color y por otro lado el número de la ficha seleccionada
@@ -431,6 +434,8 @@ def reglasOpcion3():
                 correcto = True
         return correcto
 
+
+#################################### INICIO DEL JUEGO ####################################
 
 # Crear el conjunto de fichas ordenadas aleatoriamente
 fichasRummy = conjuntoFichas()
