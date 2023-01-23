@@ -1,12 +1,18 @@
 import random
-import os, sys, time, math
+import os, time, math
+from colorama import init
+from rich.console import Console
+from rich.progress import track
+
+init(autoreset = True)
+console = Console()
 
 # Funciones para escribir en color
-def prRed(skk, end="\n"): print("\033[31m {}\033[00m" .format(skk), end= end)
-def prOrange(skk, end="\n"): print("\033[33m {}\033[00m" .format(skk), end= end)
-def prBlue(skk, end="\n"): print("\033[34m {}\033[00m" .format(skk), end= end)
-def prPurple(skk, end="\n"): print("\033[35m {}\033[00m" .format(skk), end= end)
-def prGreen(skk, end="\n"): print("\033[32m {}\033[00m" .format(skk), end= end)
+def prRed(ficha, end="\n"): print("\033[31m {}\033[00m" .format(ficha), end= end)
+def prOrange(ficha, end="\n"): print("\033[33m {}\033[00m" .format(ficha), end= end)
+def prBlue(ficha, end="\n"): print("\033[34m {}\033[00m" .format(ficha), end= end)
+def prPurple(ficha, end="\n"): print("\033[35m {}\033[00m" .format(ficha), end= end)
+def prGreen(ficha, end="\n"): print("\033[32m {}\033[00m" .format(ficha), end= end)
 
 # Función para borrar la terminal
 def borrarTerminal():
@@ -31,36 +37,34 @@ def pintarFichaColor(text, color):
 # Bienvendia al juego
 def darBienvenida():
     borrarTerminal()
-    print(" ____                                    _   _  __          _      \n"+
-            "|  _ \   _   _   _ __ ___    _ __ ___   (_) | |/ /  _   _  | |__  \n"+
-            "| |_) | | | | | | '_ ` _ \  | '_ ` _ \  | | | ' /  | | | | | '_ \ \n"+
-            "|  _ <  | |_| | | | | | | | | | | | | | | | | . \  | |_| | | |_) |\n"+
-            "|_| \_\  \__,_| |_| |_| |_| |_| |_| |_| |_| |_|\_\  \__,_| |_.__/ \n")
+    console.print("____                                    _   _  __          _      \n"+
+            "  |  _ \   _   _   _ __ ___    _ __ ___   (_) | |/ /  _   _  | |__  \n"+
+            "  | |_) | | | | | | '_ ` _ \  | '_ ` _ \  | | | ' /  | | | | | '_ \ \n"+
+            "   |  _ <  | |_| | | | | | | | | | | | | | | | | . \  | |_| | | |_) |\n"+
+            "  |_| \_\  \__,_| |_| |_| |_| |_| |_| |_| |_| |_|\_\  \__,_| |_.__/ \n", justify="center", style="bold")
     print("\n\n")
-    print("¡Bienvenidos!\n"+
-          "Estamos preparandolo todo para poder iniciar el juego cuanto antes.\n"+
-          "Antes de nada necesitamos saber algunas cosas para ajustart la partida.\n")
-
+    console.print(":fire:", "¡Bienvenido a Rummikub!",":fire:", justify = "center", style = "bold cyan")
+    console.print(
+          "Estamos preparándolo todo para poder iniciar el juego cuanto antes.\n"+
+          "Antes de nada, necesitamos saber algunas cosas para ajustar la partida.\n", justify = "center")
+    print("\n\n")
+    console.print('Este es un producto creado por: \n ' + 'Sergi Darder, David Ramirez y Sergio Majada', justify='center')
+    print("\n\n")
 # Cargar el juego
 def progressBar():
-    total = 30
-    for i in range(total):
-        percent = math.trunc(i/total * 100)
-        print("Cargando: [" +"#"*i +"."*(total-i)+"] " + str(percent) + " %")
-        # Hacemos subir el cursos una linea
-        sys.stdout.write("\033[F")
-        time.sleep(0.15)
-    print("Cargando: [" +"#"*total +"] " + "100 %")
+    for i in track(range(100), description="Cargando..."):
+        time.sleep(0.05)
 
 # Función para dar inicio al juego
 def startGameTxt():
-    print("\n\n¡TODO LISTO¡\n¡A JUGAR!")
-    print("Mucha suerte y que gane el mejor")
+    borrarTerminal()
+    console.print("\n\n¡TODO LISTO¡\n¡A JUGAR!", justify = "center")
+    console.print("Mucha suerte y que gane el mejor", justify = "center")
     time.sleep(1.5)
 
 # Función para imprimir el estado de todo el juego por pantalla
 def mostrarEstadoJuego(numJugador, manoJugador):
-    print("JUGADOR {}".format(numJugador + 1))
+    console.print(f"JUGADOR {numJugador + 1}", style="bold")
     print("\n\t■ El tablero actual es: ")
     mostrarTablero(tablero)
     print("\n\t■ Tu mano")
@@ -75,11 +79,10 @@ def conjuntoFichas():
     fichas = []
 
     colores = ["Naranja", "Azul", "Negro", "Rojo"]
-    valores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 
     for z in range(2):
         for color in colores:
-            for valor in valores:
+            for valor in range(14):
                 fichaVal = "{} {}".format(color, valor)
                 fichas.append(fichaVal)
     return fichas
@@ -118,19 +121,15 @@ def mostrarMano(manoJugador):
 # Funcion para mostrar las opciones que tiene el jugador en su turno
 def mostrarTurno(puedePasar, puedeCogerFicha):
     if puedeCogerFicha:
-        prGreen("Opcion 1", end = "")
-        print(": Coger ficha")
+        console.print("[bold cyan]Opción 1:[/bold cyan] [underline]Coger ficha.[/underline]")
 
     if partidaTurno > 1 or len(tablero) >= 1:
-        prGreen("Opcion 2", end = "")
-        print(": Añadir ficha a una posición existente.")
+        console.print("[bold cyan]Opcion 2:[/bold cyan] [underline]Añadir ficha a una posición existente.[/underline]")
 
-    prGreen("Opcion 3", end = "")
-    print(": Añadir ficha a una posición nueva")
+    console.print("[bold cyan]Opción 3:[/bold cyan] [underline]Añadir ficha a una posición nueva.[/underline]")
 
     if puedePasar:
-        prGreen("Opcion 4", end = "")
-        print(": Pasar turno")
+        console.print("[bold cyan]Opción 4:[/bold cyan] [underline]Pasar turno.[/underline]")
 
 #Función para pintar una monton del tablero
 def mostrarMonton(monton):
@@ -152,6 +151,7 @@ def mostrarTablero(tablero):
         for x in range(porFila):
             if numero > len(tablero):
                 break
+            print("\t\t", end="")
             print(f"({numero})", end="")
             mostrarMonton(tablero[x + (fila*porFila)])
             print("\t\t", end="")
@@ -374,7 +374,7 @@ darBienvenida()
 
 # Definir el número de jugadores
 jugadores = []
-numJugadores = int(input("¿Cuántos jugadores? "))
+numJugadores = int(console.input("[b]¿Cuántos jugadores?[/b] "))
 while numJugadores < 2 or numJugadores > 4:
     prRed("\tInválido. Por favor, inserta un número entre 2 y 4.\n")
     numJugadores = int(input("¿Cuántos jugadores? "))
