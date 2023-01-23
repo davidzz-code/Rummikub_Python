@@ -1,22 +1,34 @@
-import random
-import os, time, math
-from colorama import init
+import random, os, time, math
 from rich.console import Console
 from rich.progress import track
 
-init(autoreset = True)
 console = Console()
 
 # Funciones para escribir en color
-def prRed(ficha, end="\n"): print("\033[31m {}\033[00m" .format(ficha), end= end)
-def prOrange(ficha, end="\n"): print("\033[33m {}\033[00m" .format(ficha), end= end)
-def prBlue(ficha, end="\n"): print("\033[34m {}\033[00m" .format(ficha), end= end)
-def prPurple(ficha, end="\n"): print("\033[35m {}\033[00m" .format(ficha), end= end)
-def prGreen(ficha, end="\n"): print("\033[32m {}\033[00m" .format(ficha), end= end)
+def prRed(ficha, end="\n"):
+    print("\033[31m {}\033[00m".format(ficha), end=end)
+
+
+def prOrange(ficha, end="\n"):
+    print("\033[33m {}\033[00m".format(ficha), end=end)
+
+
+def prBlue(ficha, end="\n"):
+    print("\033[34m {}\033[00m".format(ficha), end=end)
+
+
+def prPurple(ficha, end="\n"):
+    print("\033[35m {}\033[00m".format(ficha), end=end)
+
+
+def prGreen(ficha, end="\n"):
+    print("\033[32m {}\033[00m".format(ficha), end=end)
+
 
 # Función para borrar la terminal
 def borrarTerminal():
     os.system("cls")
+
 
 # Función para pintar una ficha de un color. Sin salto de linea
 def pintarFichaColor(text, color):
@@ -34,33 +46,54 @@ def pintarFichaColor(text, color):
         return
     print(text, end="")
 
+
 # Bienvendia al juego
 def darBienvenida():
     borrarTerminal()
-    console.print("____                                    _   _  __          _      \n"+
-            "  |  _ \   _   _   _ __ ___    _ __ ___   (_) | |/ /  _   _  | |__  \n"+
-            "  | |_) | | | | | | '_ ` _ \  | '_ ` _ \  | | | ' /  | | | | | '_ \ \n"+
-            "   |  _ <  | |_| | | | | | | | | | | | | | | | | . \  | |_| | | |_) |\n"+
-            "  |_| \_\  \__,_| |_| |_| |_| |_| |_| |_| |_| |_|\_\  \__,_| |_.__/ \n", justify="center", style="bold")
-    print("\n\n")
-    console.print(":fire:", "¡Bienvenido a Rummikub!",":fire:", justify = "center", style = "bold cyan")
     console.print(
-          "Estamos preparándolo todo para poder iniciar el juego cuanto antes.\n"+
-          "Antes de nada, necesitamos saber algunas cosas para ajustar la partida.\n", justify = "center")
+        "____                                    _   _  __          _      \n"
+        + "  |  _ \   _   _   _ __ ___    _ __ ___   (_) | |/ /  _   _  | |__  \n"
+        + "  | |_) | | | | | | '_ ` _ \  | '_ ` _ \  | | | ' /  | | | | | '_ \ \n"
+        + "   |  _ <  | |_| | | | | | | | | | | | | | | | | . \  | |_| | | |_) |\n"
+        + "  |_| \_\  \__,_| |_| |_| |_| |_| |_| |_| |_| |_|\_\  \__,_| |_.__/ \n",
+        justify="center",
+        style="bold",
+    )
     print("\n\n")
-    console.print('Este es un producto creado por: \n ' + 'Sergi Darder, David Ramirez y Sergio Majada', justify='center')
+    console.print(
+        ":fire:",
+        "¡Bienvenido a Rummikub!",
+        ":fire:",
+        justify="center",
+        style="bold cyan",
+    )
+    console.print(
+        "Estamos preparándolo todo para poder iniciar el juego cuanto antes.\n"
+        + "Antes de nada, necesitamos saber algunas cosas para ajustar la partida.\n",
+        justify="center",
+    )
     print("\n\n")
+    console.print(
+        "Este es un producto creado por: \n "
+        + "Sergi Darder, David Ramirez y Sergio Majada",
+        justify="center",
+    )
+    print("\n\n")
+
+
 # Cargar el juego
 def progressBar():
     for i in track(range(100), description="Cargando..."):
         time.sleep(0.05)
 
+
 # Función para dar inicio al juego
 def startGameTxt():
     borrarTerminal()
-    console.print("\n\n¡TODO LISTO¡\n¡A JUGAR!", justify = "center")
-    console.print("Mucha suerte y que gane el mejor", justify = "center")
+    console.print("\n\n¡TODO LISTO¡\n¡A JUGAR!", justify="center")
+    console.print("Mucha suerte y que gane el mejor", justify="center")
     time.sleep(1.5)
+
 
 # Función para imprimir el estado de todo el juego por pantalla
 def mostrarEstadoJuego(numJugador, manoJugador):
@@ -73,6 +106,7 @@ def mostrarEstadoJuego(numJugador, manoJugador):
     # Mostrar las opciones que se pueden realizar
     print("\n\t■ Las acciones que puedes hacer son:")
     mostrarTurno(puedePasar, puedeCogerFicha)
+
 
 # Función para crear las fichas con las que se va a jugar.
 def conjuntoFichas():
@@ -87,12 +121,14 @@ def conjuntoFichas():
                 fichas.append(fichaVal)
     return fichas
 
+
 # Función para randomizar fichas.
 def shuffleFichas(fichas):
     for fichasPos in range(len(fichas)):
         randPos = random.randint(0, 51)
         fichas[fichasPos], fichas[randPos] = fichas[randPos], fichas[fichasPos]
     return fichas
+
 
 # Función para coger fichas.
 def cogerFichas(numFichas):
@@ -101,37 +137,48 @@ def cogerFichas(numFichas):
         fichasJugador.append(fichasRummy.pop(0))
     return fichasJugador
 
+
 # Función para mostrar la mano del jugador actual.
 def mostrarMano(manoJugador):
-    print("|"+"-"*120+"|")
+    print("|" + "-" * 120 + "|")
     porFila = 7
     y = 1
-    for fila in range(math.ceil(len(manoJugador)/porFila)):
+    for fila in range(math.ceil(len(manoJugador) / porFila)):
         for x in range(porFila):
             if y > len(manoJugador):
                 break
-            splitFicha = manoJugador[x+(fila*porFila)].split(" ", 1)
+            splitFicha = manoJugador[x + (fila * porFila)].split(" ", 1)
             color = splitFicha[0]
-            print(f"({y})", end = "")
+            print(f"({y})", end="")
             pintarFichaColor(f"{manoJugador[x+(fila*porFila)]}\t", color)
             y += 1
         print("")
-    print("|"+"-"*120+"|")
+    print("|" + "-" * 120 + "|")
+
 
 # Funcion para mostrar las opciones que tiene el jugador en su turno
 def mostrarTurno(puedePasar, puedeCogerFicha):
     if puedeCogerFicha:
-        console.print("[bold cyan]Opción 1:[/bold cyan] [underline]Coger ficha.[/underline]")
+        console.print(
+            "[bold cyan]Opción 1:[/bold cyan] [underline]Coger ficha.[/underline]"
+        )
 
     if partidaTurno > 1 or len(tablero) >= 1:
-        console.print("[bold cyan]Opcion 2:[/bold cyan] [underline]Añadir ficha a una posición existente.[/underline]")
+        console.print(
+            "[bold cyan]Opcion 2:[/bold cyan] [underline]Añadir ficha a una posición existente.[/underline]"
+        )
 
-    console.print("[bold cyan]Opción 3:[/bold cyan] [underline]Añadir ficha a una posición nueva.[/underline]")
+    console.print(
+        "[bold cyan]Opción 3:[/bold cyan] [underline]Añadir ficha a una posición nueva.[/underline]"
+    )
 
     if puedePasar:
-        console.print("[bold cyan]Opción 4:[/bold cyan] [underline]Pasar turno.[/underline]")
+        console.print(
+            "[bold cyan]Opción 4:[/bold cyan] [underline]Pasar turno.[/underline]"
+        )
 
-#Función para pintar una monton del tablero
+
+# Función para pintar una monton del tablero
 def mostrarMonton(monton):
     f = 1
     for ficha in monton:
@@ -142,27 +189,30 @@ def mostrarMonton(monton):
         if f <= len(monton):
             print(" -", end="")
 
+
 # Funcion para mostrar el tablero
 def mostrarTablero(tablero):
-    print("|"+"-"*120+"|")
+    print("|" + "-" * 120 + "|")
     porFila = 3
     numero = 1
-    for fila in range(math.ceil(len(tablero)/ porFila)):
+    for fila in range(math.ceil(len(tablero) / porFila)):
         for x in range(porFila):
             if numero > len(tablero):
                 break
             print("\t\t", end="")
             print(f"({numero})", end="")
-            mostrarMonton(tablero[x + (fila*porFila)])
+            mostrarMonton(tablero[x + (fila * porFila)])
             print("\t\t", end="")
             numero += 1
         print("")
-    print("|"+"-"*120+"|")
+    print("|" + "-" * 120 + "|")
+
 
 # Primera opcion del turno: Anadir una ficha a la mano del jugador
 def opcion1(manoJugador):
     manoJugador.extend(cogerFichas(1))
     prGreen("\nTu ficha se ha añadido con éxito.")
+
 
 # Segunda opcion del turno: Anadir una ficha a una posicion existente
 def opcion2():
@@ -178,8 +228,9 @@ def opcion2():
     if conjunto > len(tablero):
         prRed("\tEste conjunto no se encuentra en el tablero.")
         return False
-    elif conjunto <= len(tablero): 
+    elif conjunto <= len(tablero):
         return reglasOpcion2()
+
 
 # Tercera opcion del turno: Anadir fichas a una nueva posicion
 def opcion3(manoJugador):
@@ -190,8 +241,12 @@ def opcion3(manoJugador):
     acabarMonton = False
 
     while not acabarMonton:
-        fichaUsuario = int(input("\nElige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "))
-        
+        fichaUsuario = int(
+            input(
+                "\nElige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "
+            )
+        )
+
         if fichaUsuario == 0:
             if len(nuevoConjunto) <= 2:
                 prRed("\tEl conjunto mínimo debe ser de 3 fichas.")
@@ -202,8 +257,9 @@ def opcion3(manoJugador):
                     jugadores[jugadorTurno].extend(nuevoConjunto)
                     nuevoConjunto.clear()
 
-
-                elif str(cancelOpcion).lower() != "n" or str(cancelOpcion).lower() != "s":
+                elif (
+                    str(cancelOpcion).lower() != "n" or str(cancelOpcion).lower() != "s"
+                ):
                     prRed("\tOpción no válida.")
 
             else:
@@ -231,25 +287,29 @@ def opcion3(manoJugador):
             print("\n\n\t■ Tu nueva mano es: ")
             mostrarMano(manoJugador)
 
-            print("\n\t■ El conjunto que quieres anadir, por ahora, es: ", end = "")
+            print("\n\t■ El conjunto que quieres anadir, por ahora, es: ", end="")
             mostrarMonton(nuevoConjunto)
 
     return len(nuevoConjunto) != 0
 
-# Función para acabar la partida
+
+# Función para acabar la partida
 def finalPartida(jugador):
     borrarTerminal()
-    
+
     print("El juego ha acabado ¡Te has quedado sin fichas!")
     print("EL GANADOR ES:\n")
-    print(f'\tEl jugador {jugador + 1}\n')
+    print(f"\tEl jugador {jugador + 1}\n")
 
-    print(  " _ ______ _   _ _    _  ____  _____            ____  _    _ ______ _   _          _  \n"+
-            "(_)  ____| \ | | |  | |/ __ \|  __ \     /\   |  _ \| |  | |  ____| \ | |   /\   | | \n"+
-            "| | |__  |  \| | |__| | |  | | |__) |   /  \  | |_) | |  | | |__  |  \| |  /  \  | | \n"+
-            "| |  __| | . ` |  __  | |  | |  _  /   / /\ \ |  _ <| |  | |  __| | . ` | / /\ \ | | \n"+
-            "| | |____| |\  | |  | | |__| | | \ \  / ____ \| |_) | |__| | |____| |\  |/ ____ \|_| \n"+
-            "|_|______|_| \_|_|  |_|\____/|_|  \_\/_/    \_\____/ \____/|______|_| \_/_/    \_(_) ")
+    print(
+        " _ ______ _   _ _    _  ____  _____            ____  _    _ ______ _   _          _  \n"
+        + "(_)  ____| \ | | |  | |/ __ \|  __ \     /\   |  _ \| |  | |  ____| \ | |   /\   | | \n"
+        + "| | |__  |  \| | |__| | |  | | |__) |   /  \  | |_) | |  | | |__  |  \| |  /  \  | | \n"
+        + "| |  __| | . ` |  __  | |  | |  _  /   / /\ \ |  _ <| |  | |  __| | . ` | / /\ \ | | \n"
+        + "| | |____| |\  | |  | | |__| | | \ \  / ____ \| |_) | |__| | |____| |\  |/ ____ \|_| \n"
+        + "|_|______|_| \_|_|  |_|\____/|_|  \_\/_/    \_\____/ \____/|______|_| \_/_/    \_(_) "
+    )
+
 
 # Reglas escalera y tíos para la opción 2
 def reglasOpcion2():
@@ -262,19 +322,18 @@ def reglasOpcion2():
     listaNumerosTablero = []
 
     # Accede a las fichas del conjunto seleccionado en el tablero y las separa en color y número.
-    # Luego los añade a las listas creadas anteriormente 
+    # Luego los añade a las listas creadas anteriormente
     for i in tablero[conjunto - 1]:
         colorConjunto = i.split(" ")
         numeroConjunto = int(colorConjunto.pop(1))
         listaColoresTablero.append(colorConjunto[0])
         listaNumerosTablero.append(numeroConjunto)
 
-
-    # Bucle principal de las reglas. 
+    # Bucle principal de las reglas.
     # Valora si el conjunto está formado por tríos o escalera de números y así ejecuta una regla u otra
     if listaNumerosTablero[0] == listaNumerosTablero[1]:
 
-        # REGLA - TRÍOS
+        # REGLA - TRÍOS
         correcto = False
         while not correcto:
             if colorFichaUsuario[0] in listaColoresTablero:
@@ -291,10 +350,14 @@ def reglasOpcion2():
                 prGreen("\nTu ficha se ha añadido con éxito.")
                 return True
     else:
-        # REGLA - ESCALERA
+        # REGLA - ESCALERA
         correcto = False
         while correcto == False:
-            if colorFichaUsuario != colorConjunto or numeroFichaUsuario != (listaNumerosTablero[-1] + 1) and  numeroFichaUsuario != (listaNumerosTablero[0] - 1):
+            if (
+                colorFichaUsuario != colorConjunto
+                or numeroFichaUsuario != (listaNumerosTablero[-1] + 1)
+                and numeroFichaUsuario != (listaNumerosTablero[0] - 1)
+            ):
                 prRed("\tMovimiento incorrecto, vuelve a probar.")
                 return False
 
@@ -302,13 +365,16 @@ def reglasOpcion2():
                 correcto = True
                 listaNumerosTablero.append(numeroFichaUsuario)
                 listaNumerosTablero.sort()
-                tablero[conjunto - 1].insert(0, jugadores[jugadorTurno][fichaUsuario - 1])
-                
+                tablero[conjunto - 1].insert(
+                    0, jugadores[jugadorTurno][fichaUsuario - 1]
+                )
+
             else:
                 correcto = True
                 tablero[conjunto - 1].append(jugadores[jugadorTurno][fichaUsuario - 1])
-        
+
         return correcto
+
 
 # Reglas escalera y tíos para la opción 3
 def reglasOpcion3():
@@ -316,22 +382,22 @@ def reglasOpcion3():
     colorFichaUsuario = jugadores[jugadorTurno][fichaUsuario - 1].split(" ")
     numeroFichaUsuario = int(colorFichaUsuario.pop(1))
 
-    # Crea lista de colores y números de las fichas por separado del nuevo conjunto que se está creando 
+    # Crea lista de colores y números de las fichas por separado del nuevo conjunto que se está creando
     listaColoresTablero = []
     listaNumerosTablero = []
 
     # Accede a las fichas del nuevo conjunto en el tablero y las separa en color y número.
-    # Luego los añade a las listas creadas anteriormente 
+    # Luego los añade a las listas creadas anteriormente
     for i in nuevoConjunto:
         colorConjunto = i.split(" ")
         numeroConjunto = int(colorConjunto.pop(1))
         listaColoresTablero.append(colorConjunto[0])
         listaNumerosTablero.append(numeroConjunto)
 
-    # Bucle principal de las reglas. 
+    # Bucle principal de las reglas.
     # Valora si el conjunto está formado por tríos o escalera de números y así ejecuta una regla u otra
     if listaNumerosTablero[0] == numeroFichaUsuario:
-        # REGLA - TRÍOS
+        # REGLA - TRÍOS
         correcto = False
         while not correcto:
             if colorFichaUsuario[0] in listaColoresTablero:
@@ -346,10 +412,14 @@ def reglasOpcion3():
                 correcto = True
                 return True
     else:
-        # REGLA - ESCALERA
+        # REGLA - ESCALERA
         correcto = False
         while not correcto:
-            if colorFichaUsuario != colorConjunto or numeroFichaUsuario != (listaNumerosTablero[-1] + 1) and  numeroFichaUsuario != (listaNumerosTablero[0] - 1):
+            if (
+                colorFichaUsuario != colorConjunto
+                or numeroFichaUsuario != (listaNumerosTablero[-1] + 1)
+                and numeroFichaUsuario != (listaNumerosTablero[0] - 1)
+            ):
                 prRed("\tMovimiento incorrecto, vuelve a probar.")
                 return False
 
@@ -424,32 +494,32 @@ while jugando:
             # Muestra la mano y el tablero.
             mostrarEstadoJuego(jugadorTurno, jugadores[jugadorTurno])
             accion = int(input("\n¿Qué acción quieres hacer?: "))
-        
+
             if accion == 1 and puedeCogerFicha:
                 # Añade una ficha a la mano del jugador
                 opcion1(jugadores[jugadorTurno])
 
             elif accion == 2:
                 correcto = opcion2()
-                
+
                 if correcto:
                     puedeCogerFicha = False
                     puedePasar = True
 
             elif accion == 3:
                 correcto = opcion3(jugadores[jugadorTurno])
-                
+
                 if correcto:
                     puedeCogerFicha = False
                     puedePasar = True
-            
+
             elif accion == 4:
                 acabarAccion = True
 
             else:
                 prRed("\tOpcion no valida")
 
-#Si es primer turno:        
+    # Si es primer turno:
     else:
         puedeCogerFicha = True
         puedePasar = False
@@ -467,7 +537,7 @@ while jugando:
 
             elif accion == 2:
                 correcto = opcion2()
-                
+
                 if correcto:
                     puedePasar = True
 
@@ -495,14 +565,16 @@ while jugando:
             else:
                 prRed("\tOpción no válida \n")
 
-    if len(jugadores[jugadorTurno]) == 0: #Si la mano del jugador está vacía, se acaba el juego
+    if (
+        len(jugadores[jugadorTurno]) == 0
+    ):  # Si la mano del jugador está vacía, se acaba el juego
         jugando = False
 
     else:
         # Pasar al siguiente turno
         jugadorTurno = jugadorTurno + 1
         time.sleep(1.5)
-        
+
         if jugadorTurno == numJugadores:
             jugadorTurno = 0
 
