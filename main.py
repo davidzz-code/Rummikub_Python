@@ -28,7 +28,7 @@ def prGreen(ficha, end="\n"):
 
 # Función para borrar la terminal
 def borrarTerminal():
-    os.system("cls")
+    os.system("clear")
 
 
 # Función para pintar una ficha de un color. Sin salto de linea
@@ -137,7 +137,7 @@ def conjuntoFichas():
 
     for z in range(2):
         for color in colores:
-            for valor in range(14):
+            for valor in range(1, 14):
                 fichaVal = "{} {}".format(color, valor)
                 fichas.append(fichaVal)
     return fichas
@@ -299,7 +299,6 @@ def opcion3(manoJugador):
                 prGreen("\nTu ficha se ha añadido con éxito.")
             else:
                 if reglasOpcion3():
-                    nuevoConjunto.append(jugadores[jugadorTurno][fichaUsuario - 1])
                     jugadores[jugadorTurno].pop(fichaUsuario - 1)
                     prGreen("\nTu ficha se ha añadido con éxito.")
                 else:
@@ -368,9 +367,7 @@ def reglasOpcion2():
                 correcto = True
                 listaNumerosTablero.append(numeroFichaUsuario)
                 listaNumerosTablero.sort()
-                tablero[conjunto - 1].insert(
-                    0, jugadores[jugadorTurno][fichaUsuario - 1]
-                )
+                tablero[conjunto - 1].insert(0, jugadores[jugadorTurno][fichaUsuario - 1])
 
             else:
                 correcto = True
@@ -418,11 +415,7 @@ def reglasOpcion3():
         # REGLA - ESCALERA
         correcto = False
         while not correcto:
-            if (
-                colorFichaUsuario != colorConjunto
-                or numeroFichaUsuario != (listaNumerosTablero[-1] + 1)
-                and numeroFichaUsuario != (listaNumerosTablero[0] - 1)
-            ):
+            if (colorFichaUsuario != colorConjunto or numeroFichaUsuario != (listaNumerosTablero[-1] + 1) and numeroFichaUsuario != (listaNumerosTablero[0] - 1)):
                 prRed("\tMovimiento incorrecto, vuelve a probar.")
                 return False
 
@@ -430,8 +423,10 @@ def reglasOpcion3():
                 correcto = True
                 listaNumerosTablero.append(numeroFichaUsuario)
                 listaNumerosTablero.sort()
+                nuevoConjunto.insert(0, jugadores[jugadorTurno][fichaUsuario - 1])
             else:
                 correcto = True
+                nuevoConjunto.append(jugadores[jugadorTurno][fichaUsuario - 1])
         return correcto
 
 
@@ -499,7 +494,12 @@ while jugando:
             borrarTerminal()
             # Muestra la mano y el tablero.
             mostrarEstadoJuego(jugadorTurno, jugadores[jugadorTurno])
-            accion = int(input("\n¿Qué acción quieres hacer?: "))
+            while True:
+                try:
+                    accion = int(input("\n¿Qué acción quieres hacer?: "))
+                    break
+                except ValueError:
+                    prRed("\tPor favor, introduce un número válido.")
 
             if accion == 1 and puedeCogerFicha:
                 # Añade una ficha a la mano del jugador
@@ -536,7 +536,12 @@ while jugando:
             borrarTerminal()
             # Muestra la mano y el tablero.
             mostrarEstadoJuego(jugadorTurno, jugadores[jugadorTurno])
-            accion = int(input("\n¿Qué acción quieres hacer?: "))
+            while True:
+                try:
+                    accion = int(input("\n¿Qué acción quieres hacer?: "))
+                    break
+                except ValueError:
+                    prRed("\tPor favor, introduce un número válido.")
 
             if accion == 1 and puedeCogerFicha:
                 # Añade una ficha a la mano del jugador
