@@ -100,17 +100,17 @@ def startGameTxt():
 def finalPartida(jugador):
     borrarTerminal()
 
-    print("El juego ha acabado ¡Te has quedado sin fichas!")
-    print("EL GANADOR ES:\n")
-    print(f"\tEl jugador {jugador + 1}\n")
+    console.print("El juego ha acabado ¡Te has quedado sin fichas!", justify="center")
+    console.print("EL GANADOR ES:\n", justify="center")
+    console.print(f"\tEl jugador {jugador + 1}\n", justify="center")
 
-    print(
+    console.print(
         " _ ______ _   _ _    _  ____  _____            ____  _    _ ______ _   _          _  \n"
         + "(_)  ____| \ | | |  | |/ __ \|  __ \     /\   |  _ \| |  | |  ____| \ | |   /\   | | \n"
         + "| | |__  |  \| | |__| | |  | | |__) |   /  \  | |_) | |  | | |__  |  \| |  /  \  | | \n"
         + "| |  __| | . ` |  __  | |  | |  _  /   / /\ \ |  _ <| |  | |  __| | . ` | / /\ \ | | \n"
         + "| | |____| |\  | |  | | |__| | | \ \  / ____ \| |_) | |__| | |____| |\  |/ ____ \|_| \n"
-        + "|_|______|_| \_|_|  |_|\____/|_|  \_\/_/    \_\____/ \____/|______|_| \_/_/    \_(_) "
+        + "|_|______|_| \_|_|  |_|\____/|_|  \_\/_/    \_\____/ \____/|______|_| \_/_/    \_(_) ", justify="center"
     )
 
 
