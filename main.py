@@ -76,7 +76,7 @@ def darBienvenida():
     print("\n\n")
     console.print(
         "Este es un producto creado por: \n "
-        + "Sergi Darder, David Ramirez y Sergio Majada",
+        + "Sergi Darder, David Ramírez y Sergio Majada",
         justify="center",
     )
     print("\n\n")
@@ -220,7 +220,7 @@ def mostrarTablero(tablero):
         for x in range(porFila):
             if numero > len(tablero):
                 break
-            print("\t\t", end="")
+            print("", end="")
             print(f"({numero})", end="")
             mostrarMonton(tablero[x + (fila * porFila)])
             print("\t\t", end="")
@@ -495,6 +495,7 @@ while jugando:
         acabarAccion = False
 
         while not acabarAccion:
+            time.sleep(1)
             borrarTerminal()
             # Muestra la mano y el tablero.
             mostrarEstadoJuego(jugadorTurno, jugadores[jugadorTurno])
@@ -531,6 +532,7 @@ while jugando:
         acabarAccion = False
 
         while not acabarAccion:
+            time.sleep(1)
             borrarTerminal()
             # Muestra la mano y el tablero.
             mostrarEstadoJuego(jugadorTurno, jugadores[jugadorTurno])
