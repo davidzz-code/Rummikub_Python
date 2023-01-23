@@ -299,7 +299,6 @@ def opcion3(manoJugador):
                 prGreen("\nTu ficha se ha añadido con éxito.")
             else:
                 if reglasOpcion3():
-                    nuevoConjunto.append(jugadores[jugadorTurno][fichaUsuario - 1])
                     jugadores[jugadorTurno].pop(fichaUsuario - 1)
                     prGreen("\nTu ficha se ha añadido con éxito.")
                 else:
@@ -368,6 +367,7 @@ def reglasOpcion2():
                 correcto = True
                 listaNumerosTablero.append(numeroFichaUsuario)
                 listaNumerosTablero.sort()
+                tablero[conjunto - 1].insert(0, jugadores[jugadorTurno][fichaUsuario - 1])
 
             else:
                 correcto = True
@@ -415,11 +415,7 @@ def reglasOpcion3():
         # REGLA - ESCALERA
         correcto = False
         while not correcto:
-            if (
-                colorFichaUsuario != colorConjunto
-                or numeroFichaUsuario != (listaNumerosTablero[-1] + 1)
-                and numeroFichaUsuario != (listaNumerosTablero[0] - 1)
-            ):
+            if (colorFichaUsuario != colorConjunto or numeroFichaUsuario != (listaNumerosTablero[-1] + 1) and numeroFichaUsuario != (listaNumerosTablero[0] - 1)):
                 prRed("\tMovimiento incorrecto, vuelve a probar.")
                 return False
 
@@ -427,8 +423,10 @@ def reglasOpcion3():
                 correcto = True
                 listaNumerosTablero.append(numeroFichaUsuario)
                 listaNumerosTablero.sort()
+                nuevoConjunto.insert(0, jugadores[jugadorTurno][fichaUsuario - 1])
             else:
                 correcto = True
+                nuevoConjunto.append(jugadores[jugadorTurno][fichaUsuario - 1])
         return correcto
 
 
@@ -501,7 +499,7 @@ while jugando:
                     accion = int(input("\n¿Qué acción quieres hacer?: "))
                     break
                 except ValueError:
-                    print("Por favor, introduce un número válido.")
+                    prRed("\tPor favor, introduce un número válido.")
 
             if accion == 1 and puedeCogerFicha:
                 # Añade una ficha a la mano del jugador
@@ -543,7 +541,7 @@ while jugando:
                     accion = int(input("\n¿Qué acción quieres hacer?: "))
                     break
                 except ValueError:
-                    print("Por favor, introduce un número válido.")
+                    prRed("\tPor favor, introduce un número válido.")
 
             if accion == 1 and puedeCogerFicha:
                 # Añade una ficha a la mano del jugador
