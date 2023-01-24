@@ -264,7 +264,7 @@ def opcion3(manoJugador):
     while not acabarMonton:
         fichaUsuario = int(
             input(
-                "\nElige la ficha que quieres añadir. Si no quieres anadir mas, inserta 0: "
+                "\nElige la ficha que quieres añadir. Si no quieres anadir más, inserta 0: "
             )
         )
 
@@ -410,6 +410,7 @@ def reglasOpcion3():
 
             else:
                 correcto = True
+                nuevoConjunto.append(jugadores[jugadorTurno][fichaUsuario - 1])
                 return True
     else:
         # REGLA - ESCALERA
@@ -496,7 +497,7 @@ while jugando:
             mostrarEstadoJuego(jugadorTurno, jugadores[jugadorTurno])
             while True:
                 try:
-                    accion = int(input("\n¿Qué acción quieres hacer?: "))
+                    accion = int(input("\n¿Qué opción eliges?: "))
                     break
                 except ValueError:
                     prRed("\tPor favor, introduce un número válido.")
@@ -538,7 +539,7 @@ while jugando:
             mostrarEstadoJuego(jugadorTurno, jugadores[jugadorTurno])
             while True:
                 try:
-                    accion = int(input("\n¿Qué acción quieres hacer?: "))
+                    accion = int(input("\n¿Qué opción eliges?: "))
                     break
                 except ValueError:
                     prRed("\tPor favor, introduce un número válido.")
@@ -594,3 +595,6 @@ while jugando:
         partidaTurno += 1
 
 finalPartida(jugadorTurno)
+
+
+
